@@ -1,0 +1,1 @@
+export type GenericFunc = (props:any)=>any;
