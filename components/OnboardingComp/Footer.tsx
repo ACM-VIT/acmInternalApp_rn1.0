@@ -20,8 +20,8 @@ const Footer = ({
   leftButtonPress = ()=>{},
 }:FooterParams) => {
   const windowWidth = useWindowDimensions().width;
-  const HEIGHT = windowWidth * 0.21;
-  const FOOTER_PADDING = windowWidth * 0.1;
+  const HEIGHT = windowWidth * 0.11;
+  const FOOTER_PADDING = windowWidth * 0.08;
 
   return (
     <View
@@ -30,7 +30,7 @@ const Footer = ({
         justifyContent: leftButtonLabel ? 'space-between' : 'flex-end',
         height: HEIGHT,
         backgroundColor,
-        opacity: 0.6,
+        opacity: 1,
         alignItems: 'center',
         paddingHorizontal: FOOTER_PADDING
       }}

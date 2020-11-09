@@ -1,21 +1,21 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { Feather as Icon } from '@expo/vector-icons';
+import Colors from '../../constants/Colors';
 
 export type PageParams = {
-  backgroundColor:string,
   iconName:string,
   title:string
 }
 
-const Page = ({ backgroundColor, iconName, title }:PageParams) => {
+const Page = ({ iconName, title }:PageParams) => {
   return (
     <View
       style={{
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor
+        backgroundColor:Colors.bgMain
       }}
     >
       <Icon name={iconName} size={172} color="white" />
