@@ -15,16 +15,16 @@ export default function App() {
   const [onboarding,setOnboarding] = useState(true);
 
   useEffect(() => {
-    AsyncStorage.clear();
-    // AsyncStorage.getItem('onboarding').then((val) => {
-    //   console.warn(val);
-    //    if(!val) {
-    //      setOnboarding(true);
-    //      AsyncStorage.setItem('onboarding',"false");
-    //    } else {
-    //      setOnboarding(false);
-    //    }
-    // });
+   // AsyncStorage.clear();
+    AsyncStorage.getItem('onboarding').then((val) => {
+      console.warn(val);
+       if(!val) {
+         setOnboarding(true);
+         AsyncStorage.setItem('onboarding',"false");
+       } else {
+         setOnboarding(false);
+       }
+    });
   }, []);
 
 
