@@ -7,47 +7,12 @@ import EditScreenInfo from '../components/EditScreenInfo';
 
 import * as Google from 'expo-google-app-auth'
 import { androidClientId } from "../constants/Config";
+import DiscordSignin from "../components/DiscordSignin";
 
 export default function TabTwoScreen() {
-  const [googleSignin,setGoogleSignin] = useState({
-    signedIn:false,
-    name:"",
-    photoUrl:"",
-    accessToken:"",
-  });
 
-  const signIn = async () => {
-    try {
-      const result = await Google.logInAsync({
-        androidClientId: androidClientId,
-        // iosClientId: YOUR_CLIENT_ID_HERE,
-        scopes: ['profile', 'email'],
-      });
-  
-      if (result.type === 'success') {
-        setGoogleSignin({
-          signedIn: true,
-          name: result.user.name ?  result.user.name :" ",
-          photoUrl: result.user.photoUrl ? result.user.photoUrl:" ",
-          accessToken:result.accessToken? result.accessToken:" "
-        })
-        console.log(result);
-        return result.accessToken;
-      } else {
-        return { cancelled: true };
-      }
-    } catch (e) {
-      return { error: true };
-    }
-}
   return (
-    <View style={styles.container}>
-      {googleSignin.signedIn ? (
-          <LoggedInPage name={googleSignin.name} photoUrl={googleSignin.photoUrl} />
-        ) : (
-          <LoginPage signIn={signIn} />
-        )}
-    </View>
+     <DiscordSignin/>
   );
 }
 
