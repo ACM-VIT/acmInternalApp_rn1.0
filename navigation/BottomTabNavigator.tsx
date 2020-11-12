@@ -9,6 +9,10 @@ import TabOneScreen from '../screens/TabOneScreen';
 import TabThreeScreen from '../screens/TabThreeScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import { BottomTabParamList, TabFourParamList, TabOneParamList, TabThreeParamList, TabTwoParamList } from '../types';
+import mockData from '../fetchRequests/feed'
+import { UserType } from '../global';
+import ProfilePicture from '../components/ProfileComponent';
+import assets from '../constants/assets'
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -18,7 +22,7 @@ export default function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
       initialRouteName="TabOne"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint,style:{backgroundColor:Colors.bgMain,borderWidth:0,borderTopColor: Colors.bgMain,} }}>
+      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint,style:{backgroundColor:"#181F28",borderWidth:0,borderTopColor: Colors.bgMain,} }}>
       <BottomTab.Screen
         name="TabOne"
         component={TabOneNavigator}
@@ -62,12 +66,42 @@ function TabBarIcon(props: { name: string; color: string }) {
 const TabOneStack = createStackNavigator<TabOneParamList>();
 
 function TabOneNavigator() {
+  const [user,setUser] = React.useState<UserType>({
+    name:"",
+    username:"",
+    profilePic:"", 
+  });
+
+  React.useEffect(() => {
+    // get the current user
+    const fetchUser = async () => {
+     setUser(mockData[0]?.user)
+    }
+    fetchUser();
+  }, [])
   return (
     <TabOneStack.Navigator>
       <TabOneStack.Screen
         name="TabOneScreen"
         component={TabOneScreen}
-        options={{headerShown:false}}
+        options={{
+        headerRightContainerStyle: {
+          marginRight: 15,
+        },
+        headerLeftContainerStyle: {
+          marginLeft: 15,
+        },
+        headerTitle:" ",
+        headerLeft: () => (
+          <ProfilePicture size={40} image={assets.acmLogo}/>
+        ),
+        headerRight: () => (
+          <ProfilePicture size={35} image={user?.profilePic} />
+        ),
+        headerStyle:{
+          backgroundColor:Colors.bgMain,
+        }
+      }}
       />
     </TabOneStack.Navigator>
   );
@@ -81,7 +115,7 @@ function TabTwoNavigator() {
       <TabTwoStack.Screen
         name="TabTwoScreen"
         component={TabTwoScreen}
-        options={{headerShown:false}}
+        options={{}}
       />
     </TabTwoStack.Navigator>
   );
@@ -95,7 +129,7 @@ function TabThreeNavigator() {
       <TabThreeStack.Screen
         name="TabThreeScreen"
         component={TabThreeScreen}
-        options={{headerShown:false}}
+        options={{}}
       />
     </TabThreeStack.Navigator>
   );
@@ -109,7 +143,7 @@ function TabFourNavigator() {
       <TabFourStack.Screen
         name="TabFourScreen"
         component={TabThreeScreen}
-        options={{headerShown:false}}
+        options={{}}
       />
     </TabFourStack.Navigator>
   );

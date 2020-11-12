@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
+import Feed from '../components/Feed';
 
-import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
 
 export default function TabOneScreen() {
   return (
     <View style={styles.container}>
-     
+     <Feed />
     </View>
   );
 }

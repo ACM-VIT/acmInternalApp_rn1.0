@@ -18,7 +18,8 @@ export default {
   },
   //bgMain:'#1C272F'
   // bgMain:'#0F123F',
-  bgMain:'#010203',
+ // bgMain:'#010203',
+ bgMain:'#17202A',
   tintPrimary:'#280E65',
   accentPrimary:'#FD93D5'
 };
