@@ -1,52 +1,111 @@
-import React from 'react'
-import {View,Button, StyleSheet, Text} from 'react-native'
-import { authorize } from 'react-native-app-auth'
-import { TouchableOpacity } from 'react-native-gesture-handler'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { discordClientId, discordClientSecret, discordOauthLink } from '../constants/Config'
-import * as WebBrowser from 'expo-web-browser';
-const config = {
-  clientId: discordClientId,
-  clientSecret: discordClientSecret,
-  redirectUrl: 'http://localhost:53134/',
-  scopes: ['email', 'identify'],
-  serviceConfiguration: {
-    authorizationEndpoint: 'https://discordapp.com/api/oauth2/authorize',
-    tokenEndpoint: 'https://discordapp.com/api/oauth2/token',
-    revocationEndpoint: 'https://discordapp.com/api/oauth2/token/revoke'
-  }
-}
-async function  _onLoginDiscord() {
-  try {
-    WebBrowser.openBrowserAsync(discordOauthLink);
-  } catch (error) {
-    console.log(error);
-  }
+import * as AuthSession from "expo-auth-session";
+import * as React from "react";
+import { Alert, Button, Platform, StyleSheet, Text, View } from "react-native";
+import Colors from "../constants/Colors";
+import { discordApi, discordClientId, discordClientSecret, discordOauthLink } from "../constants/Config";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { GenericFunc } from "../global";
+import { DiscordSigninPageParams } from "./DiscordSigninPage";
+
+
+
+const useProxy = Platform.select({ web: false, default: true });
+const redirectUri = AuthSession.makeRedirectUri({ useProxy });
+
+export type DiscordSigninParams = {
+    setDiscordSignin:GenericFunc,
+    discordSigninStatus:GenericFunc 
 }
 
+export default function DiscordSignin({setDiscordSignin,discordSigninStatus}:DiscordSigninParams) {
+  const [name, setName] = React.useState(null);
 
+  const handleLogin = async () => {
+    const response = await AuthSession.startAsync({
+      authUrl: discordOauthLink,
+    });
+    //@ts-ignore
+    if(!response.params.code) {
+      console.log("Auth Failed. Curse the devs");
+      return;
+    }
+   // @ts-ignore
+    console.log(response.params.code);
+    const data = new FormData();
+    data.append('client_id',discordClientId);
+    data.append('client_secret',discordClientSecret);
+    data.append('grant_type','authorization_code');
+      //@ts-ignore
+    data.append('code',response.params.code);
+    data.append('redirect_uri',redirectUri);
+    data.append('scope','identify email guilds');
+    console.log(data);
 
-export default function DiscordSignin() {
-  return(
-    <SafeAreaView style={styles.discordContainer}>
-      <TouchableOpacity onPress={_onLoginDiscord}>
-      <View style={styles.discordLoginBtn}>
-          <Text style={styles.discordLoginBtnLabel}>Discord Signin</Text>
-      </View>
-      </TouchableOpacity>
-    </SafeAreaView>
+    const accessTokenRequest = await fetch(`${discordApi}/oauth2/token`,{
+      method:'POST',
+      body:data,
+      headers:{
+        'Content-Type': 'multipart/form-data',
+      }
+    })
+    const accessTokenResponse = await accessTokenRequest.json();
+    console.log("acessTOkenDiscord" + JSON.stringify(accessTokenResponse));
+    if(!accessTokenResponse.access_token)
+     console.log("error in accesstoken");
+    const userRequest = await fetch(`${discordApi}/users/@me`,{
+      headers:{
+        'Authorization': `Bearer ${accessTokenResponse.access_token}`,
+        "Content-Type": "application/x-www-form-urlencoded" 
+      }
+    })
+    const user = await userRequest.json();
+    console.log(user);
+    if(!user) {
+      console.warn("Auth failed");
+      console.log("Auth failed");
+    }
+    console.log(response);
+    await AsyncStorage.setItem('discord_user',JSON.stringify(user));
+    setDiscordSignin({
+      signedIn:true,
+      username:user.username,
+    });
+    discordSigninStatus(true);
+}
+
+  // Retrieve the redirect URL, add this to the callback URL list
+  // of your Auth0 application.
+  console.log(`Redirect URL: ${redirectUri}`);
+
+ 
+
+  return (
+    <View style={styles.container}>
+      {name ? (
+        <Text style={styles.title}>You are logged in, {name}!</Text>
+      ) : (
+        <View style={styles.button}>
+            <Button
+          title="Discord Login"
+          onPress={() => handleLogin()}
+        />
+        </View>      
+      )}
+    </View>
   );
-}
+      }
 
-const styles =  StyleSheet.create({
-  discordContainer:{
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.bgMain,
   },
-  discordLoginBtn:{
-
+  title: {
+    fontSize: 20,
+    textAlign: "center",
+    marginTop: 40,
   },
-  discordLoginBtnLabel:{
-
+  button:{
+    marginHorizontal:15
   }
 });
-
