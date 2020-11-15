@@ -38,13 +38,13 @@ export default function GoogleSignIn({handlePageChange,googleSigninStatus}:Googl
           signedIn: true,
           name: result.user.name ?  result.user.name :" ",
           photoUrl: result.user.photoUrl ? result.user.photoUrl:" ",
-          accessToken:result.accessToken? result.accessToken:" "
+          accessToken:result.idToken? result.idToken:" "
         })
-        console.log(JSON.stringify(result));
-        AsyncStorage.setItem('googleUser',JSON.stringify({...result.user,accessToken:result.accessToken}));
+        console.log("idToken is accessToken: " + JSON.stringify(result));
+        AsyncStorage.setItem('googleUser',JSON.stringify({...result.user,accessToken:result.idToken}));
       //  handlePageChange(1);
         googleSigninStatus(true);
-        return result.accessToken;
+        return result.idToken;
       } else {
         console.warn("error:cancelled");
         return { cancelled: true };
