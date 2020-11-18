@@ -1,12 +1,11 @@
 import React,{useState} from "react";
 import { StyleSheet, Text, View, Image, Button } from "react-native";
-
 import EditScreenInfo from './EditScreenInfo';
 
 
 
 import * as Google from 'expo-google-app-auth'
-import { androidClientId } from "../constants/Config";
+import { androidClientId, baseUrl } from "../constants/Config";
 import Colors from "../constants/Colors";
 import { TouchableHighlight, TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -17,12 +16,39 @@ export type GoogleSignInParams = {
   handlePageChange:GenericFunc,
   googleSigninStatus:GenericFunc
 }
+
+export async function setFcmToken() {
+    let expo_token:any = await AsyncStorage.getItem("expo_notification_token") ;
+    let googleUser:any = await AsyncStorage.getItem("googleUser") ;
+    if(!expo_token || !googleUser) {
+      console.log("error in fcm token");
+      return;
+    }
+    try {
+    expo_token = JSON.parse(expo_token) ;
+    googleUser = JSON.parse(googleUser);
+    }catch(err) {
+      console.log("error parsing from async storage: " + err)
+    }
+    const updates = {expo_token};
+    const userReq =await fetch(`${baseUrl}/v1/user/fetch/byEmail/${googleUser.email}`);
+    const user = await userReq.json();
+    const updateReq = await fetch( `${baseUrl}/v1/user/update/${user.id}`,{
+      method:"PUT",
+      body:JSON.stringify(updates)
+    });
+    const updateResponse = await updateReq.json();
+    console.log(updateResponse);
+    console.log(user);
+}
+
 export default function GoogleSignIn({handlePageChange,googleSigninStatus}:GoogleSignInParams) {
   const [googleSignin,setGoogleSignin] = useState({
     signedIn:false,
     name:"",
     photoUrl:"",
     accessToken:"",
+    email:"",
   });
 
   const signIn:any = async () => {
@@ -32,18 +58,49 @@ export default function GoogleSignIn({handlePageChange,googleSigninStatus}:Googl
         // iosClientId: YOUR_CLIENT_ID_HERE,
         scopes: ['profile', 'email'],
       });
-  
       if (result.type === 'success') {
         setGoogleSignin({
           signedIn: true,
           name: result.user.name ?  result.user.name :" ",
           photoUrl: result.user.photoUrl ? result.user.photoUrl:" ",
-          accessToken:result.idToken? result.idToken:" "
+          accessToken:result.idToken? result.idToken:" ",
+          email: result.user.email? result.user.email:" "
         })
         console.log("idToken is accessToken: " + JSON.stringify(result));
         AsyncStorage.setItem('googleUser',JSON.stringify({...result.user,accessToken:result.idToken}));
       //  handlePageChange(1);
         googleSigninStatus(true);
+        if(!result.idToken) {
+          console.log("error no idtoken in google response");
+          console.warn("auth failed");
+        }
+        const loginReq = await fetch(`${baseUrl}/v1/access/login/google`,{
+            method:"POST",
+            headers:{
+              "Content-Type":"application/json",
+              "authorization":`Bearer ${result.idToken}`,
+            },
+          }
+        );
+        const loginReponse = await loginReq.json();
+        console.log(JSON.stringify(loginReponse));
+        if(!loginReponse?.data?.tokens){
+          console.log("could not get the tokens in the response google sigin custom");
+        }
+        console.log(loginReponse.data.tokens);
+        await AsyncStorage.setItem("tokens",JSON.stringify(loginReponse.data.tokens))
+        const fcm_token = await AsyncStorage.getItem("fcm_token");
+        if(!fcm_token){
+          console.warn("error");
+          throw new Error("No expo token")
+        }
+        const addNotificationTokenReq = await fetch(`${baseUrl}/v1/user/update/${loginReponse.data.user.id}`,{
+          method:"PUT",
+          headers:{
+            "Content-Type":"application/json",
+          },
+          body:JSON.stringify({fcm_token})
+        })
         return result.idToken;
       } else {
         console.warn("error:cancelled");

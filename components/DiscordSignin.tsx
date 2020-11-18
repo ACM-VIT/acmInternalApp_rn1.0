@@ -2,10 +2,9 @@ import * as AuthSession from "expo-auth-session";
 import * as React from "react";
 import { Alert, Button, Platform, StyleSheet, Text, View } from "react-native";
 import Colors from "../constants/Colors";
-import { discordApi, discordClientId, discordClientSecret, discordOauthLink } from "../constants/Config";
+import { baseUrl, discordApi, discordClientId, discordClientSecret, discordOauthLink } from "../constants/Config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { GenericFunc } from "../global";
-import { DiscordSigninPageParams } from "./DiscordSigninPage";
 
 
 
@@ -59,6 +58,23 @@ export default function DiscordSignin({setDiscordSignin,discordSigninStatus}:Dis
       }
     })
     const user = await userRequest.json();
+    let tokens:any = await AsyncStorage.getItem("tokens");
+    tokens = JSON.parse(tokens as string);
+    console.log(tokens);
+    if(!tokens?.accessToken) {
+      console.warn("error in getting tokens");
+      return;
+    }
+    const addDiscordReq = await fetch(`${baseUrl}/v1/access/login/discord`,{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        'Authorization': `Bearer ${tokens.accessToken}`,
+        'discord_token': `Bearer ${accessTokenResponse.access_token}`,
+      }
+    })
+    const addDiscordRes = await addDiscordReq.json();
+    console.log(addDiscordRes);
     console.log(user);
     if(!user) {
       console.warn("Auth failed");

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "334320953247",
+    "firebase_url": "https://acminternal.firebaseio.com",
+    "project_id": "acminternal",
+    "storage_bucket": "acminternal.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:334320953247:android:a4eb7311b1fcce7d147faa",
+        "android_client_info": {
+          "package_name": "com.reactnativefirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "334320953247-cebtvillamn4dv3cgihn35kilt9sb6nc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsa8i6Te4JYKwkGNovdbTCfKzVMB46t6c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "334320953247-cebtvillamn4dv3cgihn35kilt9sb6nc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
