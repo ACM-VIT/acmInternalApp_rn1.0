@@ -82,13 +82,13 @@ export default function DiscordSignin({setDiscordSignin,discordSigninStatus}:Dis
     })
     const addDiscordRes = await addDiscordReq.json();
     console.log(addDiscordRes);
-    console.log(user);
+    console.log("discord_user_req: ",user);
+    setGlobalState((globalState:any) => ({...globalState, discordUser:user}));
     if(!user) {
       console.warn("Auth failed");
       console.log("Auth failed");
     }
     console.log(response);
-    setGlobalState((globalState:any) => ({...globalState, discordUser:user}));
     setDiscordSignin({
       signedIn:true,
       username:user.username,
