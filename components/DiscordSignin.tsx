@@ -5,6 +5,7 @@ import Colors from "../constants/Colors";
 import { baseUrl, discordApi, discordClientId, discordClientSecret, discordOauthLink } from "../constants/Config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { GenericFunc } from "../global";
+import GlobalState, { IGlobalState } from "../contexts/GlobalState";
 
 
 
@@ -18,6 +19,7 @@ export type DiscordSigninParams = {
 
 export default function DiscordSignin({setDiscordSignin,discordSigninStatus}:DiscordSigninParams) {
   const [name, setName] = React.useState(null);
+  const [globalState,setGlobalState] = React.useContext(GlobalState);
 
   const handleLogin = async () => {
     const response = await AuthSession.startAsync({
@@ -58,13 +60,14 @@ export default function DiscordSignin({setDiscordSignin,discordSigninStatus}:Dis
       }
     })
     const user = await userRequest.json();
-    let tokensStorage:string|null = await AsyncStorage.getItem("tokens");
-    if(!tokensStorage){
-      console.log("coudn not get the custom tokens from async storage");
-      return ;
-    } 
-    let tokens = JSON.parse(tokensStorage);
-    console.log(tokens);
+    // let tokensStorage:string|null = await AsyncStorage.getItem("tokens");
+    // if(!tokensStorage){
+    //   console.log("coudn not get the custom tokens from async storage");
+    //   return ;
+    // } 
+    // let tokens = JSON.parse(tokensStorage);
+    // console.log(tokens);
+    let tokens = await globalState.tokens;
     if(!tokens?.accessToken) {
       console.warn("error in getting tokens");
       return;
@@ -85,12 +88,13 @@ export default function DiscordSignin({setDiscordSignin,discordSigninStatus}:Dis
       console.log("Auth failed");
     }
     console.log(response);
-    await AsyncStorage.setItem('discord_user',JSON.stringify(user));
+    setGlobalState((globalState:any) => ({...globalState, discordUser:user}));
     setDiscordSignin({
       signedIn:true,
       username:user.username,
     });
     discordSigninStatus(true);
+    console.log("globalstate:  ",globalState);
 }
 
   // Retrieve the redirect URL, add this to the callback URL list

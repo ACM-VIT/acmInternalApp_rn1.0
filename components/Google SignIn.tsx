@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useContext, useState} from "react";
 import { StyleSheet, Text, View, Image, Button, Platform } from "react-native";
 import EditScreenInfo from './EditScreenInfo';
 import * as AuthSession from "expo-auth-session";
@@ -12,6 +12,7 @@ import { TouchableHighlight, TouchableOpacity } from "react-native-gesture-handl
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { GenericFunc } from "../global";
+import GlobalState from "../contexts/GlobalState";
 
 export type GoogleSignInParams = {
   handlePageChange:GenericFunc,
@@ -27,6 +28,7 @@ export default function GoogleSignIn({handlePageChange,googleSigninStatus}:Googl
     accessToken:"",
     email:"",
   });
+  const [globalState,setGlobalState] = useContext(GlobalState);
 
   const signIn:any = async () => {
     try {
@@ -46,6 +48,11 @@ export default function GoogleSignIn({handlePageChange,googleSigninStatus}:Googl
           email: result.user.email? result.user.email:" "
         })
         console.log("idToken is accessToken: " + JSON.stringify(result));
+        if(!result.user){
+          console.log("no google user found");
+          return;
+        }
+        setGlobalState((globalState:any) => ({...globalState, googleUser: result.user}));
         AsyncStorage.setItem('googleUser',JSON.stringify({...result.user,accessToken:result.idToken}));
       //  handlePageChange(1);
         googleSigninStatus(true);
@@ -65,10 +72,11 @@ export default function GoogleSignIn({handlePageChange,googleSigninStatus}:Googl
         console.log(JSON.stringify(loginReponse));
         if(!loginReponse?.data?.tokens){
           console.log("could not get the tokens in the response google sigin custom");
+          return;
         }
         console.log(loginReponse.data.tokens);
-        const tokens = await AsyncStorage.setItem("tokens",JSON.stringify(loginReponse.data.tokens));
-        console.log("the tokens send to async storage: ",tokens);
+        setGlobalState((globalState:any) => ({...globalState, tokens: loginReponse.data.tokens}));
+        console.log("Global State: ",globalState);
         const fcm_token = await AsyncStorage.getItem("fcm_token");
         if(!fcm_token){
           console.warn("error");

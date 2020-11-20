@@ -15,6 +15,7 @@ import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants'
 import { Platform } from 'react-native';
+import GlobalState,{IGlobalState} from './contexts/GlobalState';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -33,6 +34,11 @@ export default function App() {
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef<any>();
   const responseListener = useRef<any>();
+  const [globalState,setGlobalState] = useState<IGlobalState>({
+    tokens:undefined,
+    googleUser:undefined,
+    discordUser:undefined
+  });
 
   useEffect(() => {
     AsyncStorage.clear();
@@ -83,11 +89,13 @@ export default function App() {
     return null;
   } else {
     return (
-      <SafeAreaProvider>
+      <GlobalState.Provider value={[globalState,setGlobalState]}>
+        <SafeAreaProvider>
         {onboarding  && <Onboarding setOnboarding={setOnboarding} />}
         {!onboarding  && <Navigation colorScheme={colorScheme} />}
         <StatusBar />
       </SafeAreaProvider>
+      </GlobalState.Provider>
     );
   }
 }
