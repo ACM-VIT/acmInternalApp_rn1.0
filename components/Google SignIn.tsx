@@ -18,30 +18,6 @@ export type GoogleSignInParams = {
   googleSigninStatus:GenericFunc
 }
 
-export async function setFcmToken() {
-    let expo_token:any = await AsyncStorage.getItem("expo_notification_token") ;
-    let googleUser:any = await AsyncStorage.getItem("googleUser") ;
-    if(!expo_token || !googleUser) {
-      console.log("error in fcm token");
-      return;
-    }
-    try {
-    expo_token = JSON.parse(expo_token) ;
-    googleUser = JSON.parse(googleUser);
-    }catch(err) {
-      console.log("error parsing from async storage: " + err)
-    }
-    const updates = {expo_token};
-    const userReq =await fetch(`${baseUrl}/v1/user/fetch/byEmail/${googleUser.email}`);
-    const user = await userReq.json();
-    const updateReq = await fetch( `${baseUrl}/v1/user/update/${user.id}`,{
-      method:"PUT",
-      body:JSON.stringify(updates)
-    });
-    const updateResponse = await updateReq.json();
-    console.log(updateResponse);
-    console.log(user);
-}
 
 export default function GoogleSignIn({handlePageChange,googleSigninStatus}:GoogleSignInParams) {
   const [googleSignin,setGoogleSignin] = useState({
@@ -91,7 +67,8 @@ export default function GoogleSignIn({handlePageChange,googleSigninStatus}:Googl
           console.log("could not get the tokens in the response google sigin custom");
         }
         console.log(loginReponse.data.tokens);
-        await AsyncStorage.setItem("tokens",JSON.stringify(loginReponse.data.tokens))
+        const tokens = await AsyncStorage.setItem("tokens",JSON.stringify(loginReponse.data.tokens));
+        console.log("the tokens send to async storage: ",tokens);
         const fcm_token = await AsyncStorage.getItem("fcm_token");
         if(!fcm_token){
           console.warn("error");

@@ -58,8 +58,12 @@ export default function DiscordSignin({setDiscordSignin,discordSigninStatus}:Dis
       }
     })
     const user = await userRequest.json();
-    let tokens:any = await AsyncStorage.getItem("tokens");
-    tokens = JSON.parse(tokens as string);
+    let tokensStorage:string|null = await AsyncStorage.getItem("tokens");
+    if(!tokensStorage){
+      console.log("coudn not get the custom tokens from async storage");
+      return ;
+    } 
+    let tokens = JSON.parse(tokensStorage);
     console.log(tokens);
     if(!tokens?.accessToken) {
       console.warn("error in getting tokens");
