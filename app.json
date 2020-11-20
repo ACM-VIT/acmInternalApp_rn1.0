@@ -27,7 +27,13 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.madrigal1.acminternalapprn"
+      "package": "com.madrigal1.acminternalapprn",
+      "config":{
+        "googleSignIn":{
+          "apiKey": "AIzaSyCLGmwBg3gCY-T7tlDb5D5Bput4_EY_hyM",
+          "certificateHash":"5832185395A134CCF45249F1B96E0C3248223A8D"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/images/favicon.png"

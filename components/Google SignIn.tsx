@@ -1,11 +1,12 @@
 import React,{useState} from "react";
-import { StyleSheet, Text, View, Image, Button } from "react-native";
+import { StyleSheet, Text, View, Image, Button, Platform } from "react-native";
 import EditScreenInfo from './EditScreenInfo';
+import * as AuthSession from "expo-auth-session";
 
 
 
 import * as Google from 'expo-google-app-auth'
-import { androidClientId, baseUrl } from "../constants/Config";
+import { androidClientIdDev, androidClientIdProd, baseUrl, webClientId } from "../constants/Config";
 import Colors from "../constants/Colors";
 import { TouchableHighlight, TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -53,11 +54,13 @@ export default function GoogleSignIn({handlePageChange,googleSigninStatus}:Googl
 
   const signIn:any = async () => {
     try {
-      const result = await Google.logInAsync({
-        androidClientId: androidClientId,
-        // iosClientId: YOUR_CLIENT_ID_HERE,
+      const config = {
+        expoClientId: webClientId,
+         androidClientId: androidClientIdDev,
+        androidStandaloneAppClientId: androidClientIdProd,
         scopes: ['profile', 'email'],
-      });
+      }as Google.GoogleLogInConfig;
+      const result = await Google.logInAsync(config);
       if (result.type === 'success') {
         setGoogleSignin({
           signedIn: true,
