@@ -94,13 +94,16 @@ export default function GoogleSignIn({handlePageChange,googleSigninStatus}:Googl
           console.warn("error");
           throw new Error("No expo token")
         }
-        const addNotificationTokenReq = await fetch(`${baseUrl}/v1/user/update/${loginReponse.data.user.id}`,{
+        const addNotificationTokenReq = await fetch(`${baseUrl}/v1/user/update`,{
           method:"PUT",
           headers:{
             "Content-Type":"application/json",
+            "authorization":`Bearer ${loginReponse.data.tokens.accessToken}`,
           },
           body:JSON.stringify({fcm_token})
         })
+        const addNotificationTokenRes = await addNotificationTokenReq.json();
+        console.log(JSON.stringify(addNotificationTokenRes));
         return result.idToken;
       } else {
         console.warn("error:cancelled");
