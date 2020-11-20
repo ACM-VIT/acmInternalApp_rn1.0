@@ -33,7 +33,13 @@
           "apiKey": "AIzaSyCLGmwBg3gCY-T7tlDb5D5Bput4_EY_hyM",
           "certificateHash":"5832185395A134CCF45249F1B96E0C3248223A8D"
         }
-      }
+      },
+      "permissions": [
+        "com.google.android.c2dm.permission.RECEIVE",
+        "com.google.android.c2dm.intent.REGISTRATION",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "favicon": "./assets/images/favicon.png"

@@ -46,6 +46,7 @@ export default function App() {
     // This listener is fired whenever a notification is received while the app is foregrounded
     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
       setNotification(notification as React.SetStateAction<any>);
+      console.warn("yay push notification")
     });
 
     // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
@@ -54,8 +55,8 @@ export default function App() {
       console.warn("push notfication yay");
     });
 
-   const token = AsyncStorage.getItem("expo_notification_token");
-    if(token) sendPushNotification(token);
+   
+    if(expoPushToken) sendPushNotification(expoPushToken);
 
 
     return () => {
