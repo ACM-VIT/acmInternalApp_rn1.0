@@ -60,6 +60,7 @@ export default function DiscordSignin({setDiscordSignin,discordSigninStatus}:Dis
       }
     })
     const user = await userRequest.json();
+    console.log("globalState Discord : ",globalState)
     // let tokensStorage:string|null = await AsyncStorage.getItem("tokens");
     // if(!tokensStorage){
     //   console.log("coudn not get the custom tokens from async storage");
@@ -89,12 +90,12 @@ export default function DiscordSignin({setDiscordSignin,discordSigninStatus}:Dis
       console.log("Auth failed");
     }
     console.log(response);
+    console.log("globalstate:  ",globalState);
     setDiscordSignin({
       signedIn:true,
       username:user.username,
     });
     discordSigninStatus(true);
-    console.log("globalstate:  ",globalState);
 }
 
   // Retrieve the redirect URL, add this to the callback URL list
