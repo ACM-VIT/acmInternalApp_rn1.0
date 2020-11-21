@@ -1,9 +1,8 @@
 import * as AuthSession from "expo-auth-session";
 import * as React from "react";
-import { Alert, Button, Platform, StyleSheet, Text, View } from "react-native";
+import { Button, Platform, StyleSheet, Text, View } from "react-native";
 import Colors from "../constants/Colors";
 import { baseUrl, discordApi, discordClientId, discordClientSecret, discordOauthLink } from "../constants/Config";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { GenericFunc } from "../global";
 import GlobalState, { IGlobalState } from "../contexts/GlobalState";
 import {Bubbles} from 'react-native-loader';

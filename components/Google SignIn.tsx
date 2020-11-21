@@ -1,14 +1,12 @@
 import React,{useContext, useState} from "react";
-import { StyleSheet, Text, View, Image, Button, Platform } from "react-native";
-import EditScreenInfo from './EditScreenInfo';
-import * as AuthSession from "expo-auth-session";
+import { StyleSheet, Text, View, Image} from "react-native";
 
 
 
 import * as Google from 'expo-google-app-auth'
 import { androidClientIdDev, androidClientIdProd, baseUrl, webClientId } from "../constants/Config";
 import Colors from "../constants/Colors";
-import { TouchableHighlight, TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { GenericFunc } from "../global";
@@ -16,11 +14,13 @@ import GlobalState from "../contexts/GlobalState";
 
 export type GoogleSignInParams = {
   handlePageChange:GenericFunc,
-  googleSigninStatus:GenericFunc
+  googleSigninStatus:GenericFunc,
+  setButtonPress:GenericFunc,
+  buttonPress:boolean
 }
 
 
-export default function GoogleSignIn({handlePageChange,googleSigninStatus}:GoogleSignInParams) {
+export default function GoogleSignIn({buttonPress,setButtonPress,handlePageChange,googleSigninStatus}:GoogleSignInParams) {
   const [googleSignin,setGoogleSignin] = useState({
     signedIn:false,
     name:"",
@@ -54,8 +54,7 @@ export default function GoogleSignIn({handlePageChange,googleSigninStatus}:Googl
         }
         
       //  handlePageChange(1);
-        googleSigninStatus(true);
-        if(!result.idToken) {
+        if(!result?.idToken) {
           console.log("error no idtoken in google response");
           console.warn("auth failed");
         }
@@ -91,6 +90,7 @@ export default function GoogleSignIn({handlePageChange,googleSigninStatus}:Googl
         const addNotificationTokenRes = await addNotificationTokenReq.json();
         console.log(JSON.stringify(addNotificationTokenRes));
         setGlobalState((globalState:any) => ({...globalState, googleUser: result.user,tokens:loginReponse.data.tokens,fcm_token}));
+        googleSigninStatus(true);
         return result.idToken;
       } else {
         console.warn("error:cancelled");
@@ -113,9 +113,8 @@ export default function GoogleSignIn({handlePageChange,googleSigninStatus}:Googl
         <View style={styles.centerLabelContainer}>
           <Text style={styles.googleSubtitleLabel}>Onboarding... </Text>
         </View>
-        <LoginPage signIn={signIn} />
-        </>
-         
+        {!buttonPress && <LoginPage setButtonPress={setButtonPress} signIn={signIn} />}
+        </> 
         )}
     </SafeAreaView>
   );
@@ -123,12 +122,13 @@ export default function GoogleSignIn({handlePageChange,googleSigninStatus}:Googl
 
 export type LoginPageParams = {
   signIn:()=>any;
+  setButtonPress:GenericFunc;
 }
 
 const LoginPage = (props:LoginPageParams) => {
   return (
     <View style={styles.loginPageContainer}>
-      <TouchableOpacity onPress={props.signIn}>
+      <TouchableOpacity onPress={()=>{props.setButtonPress(true);setTimeout(()=>props.signIn(),2500)}}>
         <View style={styles.googleBtn}  >
           <Text style={styles.btnLabel}> Google Sign in </Text>
         </View>
