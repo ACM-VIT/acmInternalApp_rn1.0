@@ -6,6 +6,7 @@ import { baseUrl, discordApi, discordClientId, discordClientSecret, discordOauth
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { GenericFunc } from "../global";
 import GlobalState, { IGlobalState } from "../contexts/GlobalState";
+import {Bars} from 'react-native-loader';
 
 
 
@@ -106,10 +107,12 @@ React.useEffect(()=>{
         <Text style={styles.title}>You are logged in, {name}!</Text>
       ) : (
         <View style={styles.button}>
-          {globalState.tokens && <Button
+          {globalState.tokens ? <Button
           title="Discord Login"
           onPress={() =>{handleLogin({globalState,setDiscordSignin,setGlobalState,discordSigninStatus})}}
-        />}
+        />:     <View style={styles.bars}>
+          <Bars size={10} color="#FFFFFF" />
+      </View>}
         </View>      
       )}
     </View>
@@ -120,6 +123,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.bgMain,
+    // backgroundColor:"red",
   },
   title: {
     fontSize: 20,
@@ -127,6 +131,9 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   button:{
-    marginHorizontal:15
+    marginHorizontal:10,
+  },
+  bars:{
+    alignItems:"center",
   }
 });

@@ -31,3 +31,4 @@ export interface ProjectType {
     noOfUpvotes:number,
     image?:string
 }
+
