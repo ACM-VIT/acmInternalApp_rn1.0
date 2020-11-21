@@ -76,7 +76,6 @@ const handleLogin = async ({globalState,setDiscordSignin,setGlobalState,discordS
     }
   })
   const addDiscordRes = await addDiscordReq.json();
-  console.log("discord Response: ",JSON.stringify(addDiscordRes));
   if(!user) {
     console.warn("Auth failed");
     console.log("Auth failed");
