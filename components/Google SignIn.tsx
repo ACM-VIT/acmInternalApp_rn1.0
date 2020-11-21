@@ -156,12 +156,12 @@ const styles = StyleSheet.create({
   container: {
     width:"100%",
     height:200,
-    backgroundColor: Colors.bgMain,
+    backgroundColor: Colors.currentTheme.onboarding.bgMain,
   },
   LoggedInContainer:{
     width:"100%",
     height:200,
-    backgroundColor: Colors.bgMain,
+    backgroundColor: Colors.currentTheme.onboarding.bgMain,
     flexDirection:"row"
   },
   image: {
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
   googleBtn:{
     backgroundColor: "#202021",
     borderRadius:8,
-    color:Colors.bgMain,
+    color:Colors.currentTheme.onboarding.bgMain,
     width:'100%',
     paddingHorizontal:10,
     paddingVertical:10,

@@ -6,7 +6,7 @@ import { baseUrl, discordApi, discordClientId, discordClientSecret, discordOauth
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { GenericFunc } from "../global";
 import GlobalState, { IGlobalState } from "../contexts/GlobalState";
-import {Bars} from 'react-native-loader';
+import {Bubbles} from 'react-native-loader';
 
 
 
@@ -111,7 +111,7 @@ React.useEffect(()=>{
           title="Discord Login"
           onPress={() =>{handleLogin({globalState,setDiscordSignin,setGlobalState,discordSigninStatus})}}
         />:     <View style={styles.bars}>
-          <Bars size={10} color="#FFFFFF" />
+          <Bubbles size={7} color="#FFFFFF" />
       </View>}
         </View>      
       )}
@@ -122,7 +122,7 @@ React.useEffect(()=>{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.bgMain,
+    backgroundColor: Colors.currentTheme.bgMain,
     // backgroundColor:"red",
   },
   title: {

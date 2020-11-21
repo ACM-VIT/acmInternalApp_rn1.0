@@ -31,7 +31,7 @@ const Onboarding = ({setOnboarding}:OnboardingParams) => {
           <Image resizeMode="cover" source={{uri:assets.onboarding_screen1}} style={{flex:1}}/>
           <GoogleSignIn handlePageChange={handlePageChange} googleSigninStatus={googleSigninStatus}/>
           {googleSignin &&  <Footer
-            backgroundColor={Colors.bgMain}
+            backgroundColor={Colors.currentTheme.onboarding.bgMain}
             leftButtonLabel="Next"
             leftButtonPress={() => {
               handlePageChange(1);
@@ -43,7 +43,7 @@ const Onboarding = ({setOnboarding}:OnboardingParams) => {
         <Image resizeMode="cover" source={{uri:assets.onboarding_screen1}} style={{flex:1}}/>
           <DiscordSigninPage setOnboarding={setOnboarding}  discordSigninStatus={discordSigninStatus} handlePageChange={handlePageChange}/>
           { discordSignin && <Footer
-            backgroundColor={Colors.bgMain}
+            backgroundColor={Colors.currentTheme.onboarding.bgMain}
             rightButtonLabel="Previous"
             rightButtonPress={() => handlePageChange(0)}
             leftButtonLabel="Finish"

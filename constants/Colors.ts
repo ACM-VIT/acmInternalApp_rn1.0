@@ -1,25 +1,23 @@
 const tintColorLight = '#2f95dc';
 const tintColorDark = '#fff';
 
-export default {
-  light: {
-    text: '#000',
-    background: '#fff',
-    tint: tintColorLight,
-    tabIconDefault: '#ccc',
-    tabIconSelected: tintColorLight,
+export const defaultTheme =  {
+  onboarding:{
+    bgMain:'#17202A',
   },
-  dark: {
-    text: '#fff',
-    background: '#000',
-    tint: tintColorDark,
-    tabIconDefault: '#ccc',
-    tabIconSelected: tintColorDark,
-  },
-  //bgMain:'#1C272F'
-  // bgMain:'#0F123F',
- // bgMain:'#010203',
- bgMain:'#17202A',
+  bgMain:'#17202A',
   tintPrimary:'#280E65',
-  accentPrimary:'#FD93D5'
+  accentPrimary:'#FD93D5',
+  tabsColor:'#D3D3D3',
+  bottomNavBackgroundColor:"#17202A",
+  topHeaderBackground:"#17202A"
 };
+
+export default {
+ currentTheme:defaultTheme,
+};
+
+
+//bgMain:'#1C272F'
+// bgMain:'#0F123F',
+// bgMain:'#010203',

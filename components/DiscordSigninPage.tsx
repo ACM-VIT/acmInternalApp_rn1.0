@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     mainContainer:{
         width:"100%",
         height:150,
-        backgroundColor:Colors.bgMain,
+        backgroundColor:Colors.currentTheme.onboarding.bgMain,
     },
     title:{
         fontSize:32,

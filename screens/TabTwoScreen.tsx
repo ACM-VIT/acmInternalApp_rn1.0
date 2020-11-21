@@ -1,12 +1,7 @@
 import React,{useState} from "react";
 import { StyleSheet, Text, View, Image, Button, SafeAreaView } from "react-native";
 
-import EditScreenInfo from '../components/EditScreenInfo';
 
-
-
-import * as Google from 'expo-google-app-auth'
-import { androidClientId } from "../constants/Config";
 import Colors from "../constants/Colors";
 
 
@@ -19,7 +14,7 @@ export default function TabTwoScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.bgMain,
+    backgroundColor: Colors.currentTheme.bgMain,
     alignItems: "center",
     justifyContent: "center"
   },

@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Feed from '../components/Feed';
 
-import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
 
 export default function TabOneScreen() {
@@ -18,7 +17,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.bgMain
+    backgroundColor: Colors.currentTheme.bgMain
   },
   title: {
     fontSize: 20,

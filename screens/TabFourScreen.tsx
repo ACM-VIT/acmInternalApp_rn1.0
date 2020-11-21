@@ -1,16 +1,13 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet,View,Text } from 'react-native';
 
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
 
 export default function TabThreeScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab Three</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabThreeScreen.js" />
+      <View style={styles.separator} />
     </View>
   );
 }
@@ -20,7 +17,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.bgMain
+    backgroundColor: Colors.currentTheme.bgMain
   },
   title: {
     fontSize: 20,

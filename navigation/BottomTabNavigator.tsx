@@ -22,7 +22,7 @@ export default function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
       initialRouteName="TabOne"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint,style:{backgroundColor:"#181F28",borderWidth:0,borderTopColor: Colors.bgMain,} }}>
+      tabBarOptions={{ activeTintColor: Colors.currentTheme.tabsColor,style:{backgroundColor:Colors.currentTheme.bottomNavBackgroundColor,borderWidth:0,borderTopColor: Colors.currentTheme.bottomNavBackgroundColor,} }}>
       <BottomTab.Screen
         name="TabOne"
         component={TabOneNavigator}
@@ -99,7 +99,7 @@ function TabOneNavigator() {
           <ProfilePicture size={35} image={user?.profilePic} />
         ),
         headerStyle:{
-          backgroundColor:Colors.bgMain,
+          backgroundColor:Colors.currentTheme.topHeaderBackground,
         }
       }}
       />
