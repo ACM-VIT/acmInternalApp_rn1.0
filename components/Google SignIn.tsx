@@ -52,8 +52,7 @@ export default function GoogleSignIn({handlePageChange,googleSigninStatus}:Googl
           console.log("no google user found");
           return;
         }
-        setGlobalState((globalState:any) => ({...globalState, googleUser: result.user}));
-        AsyncStorage.setItem('googleUser',JSON.stringify({...result.user,accessToken:result.idToken}));
+        
       //  handlePageChange(1);
         googleSigninStatus(true);
         if(!result.idToken) {
@@ -75,7 +74,6 @@ export default function GoogleSignIn({handlePageChange,googleSigninStatus}:Googl
           return;
         }
         console.log(loginReponse.data.tokens);
-        setGlobalState((globalState:any) => ({...globalState, tokens: loginReponse.data.tokens}));
         console.log("Global State: ",globalState);
         const fcm_token = await AsyncStorage.getItem("fcm_token");
         if(!fcm_token){
@@ -92,6 +90,7 @@ export default function GoogleSignIn({handlePageChange,googleSigninStatus}:Googl
         })
         const addNotificationTokenRes = await addNotificationTokenReq.json();
         console.log(JSON.stringify(addNotificationTokenRes));
+        setGlobalState((globalState:any) => ({...globalState, googleUser: result.user,tokens:loginReponse.data.tokens,fcm_token}));
         return result.idToken;
       } else {
         console.warn("error:cancelled");

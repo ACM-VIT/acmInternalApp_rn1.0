@@ -30,8 +30,6 @@ export default function DiscordSignin({setDiscordSignin,discordSigninStatus}:Dis
       console.log("Auth Failed. Curse the devs");
       return;
     }
-   // @ts-ignore
-    console.log(response.params.code);
     const data = new FormData();
     data.append('client_id',discordClientId);
     data.append('client_secret',discordClientSecret);
@@ -40,7 +38,6 @@ export default function DiscordSignin({setDiscordSignin,discordSigninStatus}:Dis
     data.append('code',response.params.code);
     data.append('redirect_uri',redirectUri);
     data.append('scope','identify email guilds');
-    console.log(data);
 
     const accessTokenRequest = await fetch(`${discordApi}/oauth2/token`,{
       method:'POST',
@@ -50,7 +47,6 @@ export default function DiscordSignin({setDiscordSignin,discordSigninStatus}:Dis
       }
     })
     const accessTokenResponse = await accessTokenRequest.json();
-    console.log("acessTOkenDiscord" + JSON.stringify(accessTokenResponse));
     if(!accessTokenResponse.access_token)
      console.log("error in accesstoken");
     const userRequest = await fetch(`${discordApi}/users/@me`,{
@@ -60,15 +56,7 @@ export default function DiscordSignin({setDiscordSignin,discordSigninStatus}:Dis
       }
     })
     const user = await userRequest.json();
-    console.log("globalState Discord : ",globalState)
-    // let tokensStorage:string|null = await AsyncStorage.getItem("tokens");
-    // if(!tokensStorage){
-    //   console.log("coudn not get the custom tokens from async storage");
-    //   return ;
-    // } 
-    // let tokens = JSON.parse(tokensStorage);
-    // console.log(tokens);
-    let tokens = await globalState.tokens;
+    let tokens = globalState.tokens;
     if(!tokens?.accessToken) {
       console.warn("error in getting tokens");
       return;
@@ -82,27 +70,20 @@ export default function DiscordSignin({setDiscordSignin,discordSigninStatus}:Dis
       }
     })
     const addDiscordRes = await addDiscordReq.json();
-    console.log(addDiscordRes);
-    console.log("discord_user_req: ",user);
-    setGlobalState((globalState:any) => ({...globalState, discordUser:user}));
     if(!user) {
       console.warn("Auth failed");
       console.log("Auth failed");
     }
-    console.log(response);
-    console.log("globalstate:  ",globalState);
     setDiscordSignin({
       signedIn:true,
       username:user.username,
     });
     discordSigninStatus(true);
+    setGlobalState((globalState:any) => ({...globalState, discordUser:user}));
 }
-
-  // Retrieve the redirect URL, add this to the callback URL list
-  // of your Auth0 application.
-  console.log(`Redirect URL: ${redirectUri}`);
-
- 
+React.useEffect(()=>{
+  console.log("globalState Finalac:",globalState)
+},[globalState]);
 
   return (
     <View style={styles.container}>

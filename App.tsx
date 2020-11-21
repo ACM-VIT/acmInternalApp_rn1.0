@@ -34,11 +34,7 @@ export default function App() {
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef<any>();
   const responseListener = useRef<any>();
-  const [globalState,setGlobalState] = useState<IGlobalState>({
-    tokens:undefined,
-    googleUser:undefined,
-    discordUser:undefined
-  });
+  const [globalState,setGlobalState] = useState<IGlobalState>({});
 
   useEffect(() => {
     AsyncStorage.clear();
