@@ -85,13 +85,14 @@ export default function App() {
     return null;
   } else {
     return (
-      <GlobalState.Provider value={[globalState,setGlobalState]}>
-        <SafeAreaProvider>
+      <SafeAreaProvider>
+         <GlobalState.Provider value={[globalState,setGlobalState]}>
         {onboarding  && <Onboarding setOnboarding={setOnboarding} />}
         {!onboarding  && <Navigation colorScheme={colorScheme} />}
+        </GlobalState.Provider>
         <StatusBar />
       </SafeAreaProvider>
-      </GlobalState.Provider>
+     
     );
   }
 }

@@ -106,10 +106,10 @@ React.useEffect(()=>{
         <Text style={styles.title}>You are logged in, {name}!</Text>
       ) : (
         <View style={styles.button}>
-            <Button
+          {globalState.tokens && <Button
           title="Discord Login"
-          onPress={() =>{ handleLogin({globalState,setDiscordSignin,setGlobalState,discordSigninStatus})}}
-        />
+          onPress={() =>{handleLogin({globalState,setDiscordSignin,setGlobalState,discordSigninStatus})}}
+        />}
         </View>      
       )}
     </View>
