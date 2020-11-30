@@ -10,7 +10,8 @@ export const defaultTheme =  {
   accentPrimary:'#FD93D5',
   tabsColor:'#D3D3D3',
   bottomNavBackgroundColor:"#17202A",
-  topHeaderBackground:"#17202A"
+  topHeaderBackground:"#17202A",
+  newTweetButton:'#2f95dc'
 };
 
 export default {

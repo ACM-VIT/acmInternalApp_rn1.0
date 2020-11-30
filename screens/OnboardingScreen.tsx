@@ -10,6 +10,7 @@ import GoogleSignIn from '../components/Google SignIn'
 import assets from '../constants/assets'
 import DiscordSigninPage from '../components/DiscordSigninPage';
 import {DoubleBounce} from 'react-native-loader';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export type OnboardingParams = {
   setOnboarding:GenericFunc,

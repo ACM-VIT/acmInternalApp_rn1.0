@@ -38,7 +38,6 @@ export default function App() {
 
   useEffect(() => {
     AsyncStorage.clear();
-  
     AsyncStorage.getItem('onboarding').then((val) => {
         if(val) setOnboarding(false);
     });
@@ -71,7 +70,7 @@ export default function App() {
     // AsyncStorage.clear();
     AsyncStorage.getItem('onboarding').then((val) => {
       if(!val){
-        AsyncStorage.setItem("onboarding","false");
+        AsyncStorage.setItem("onboarding","true");
       }
     });
        

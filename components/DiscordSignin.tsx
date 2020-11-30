@@ -110,7 +110,7 @@ React.useEffect(()=>{
           title="Discord Login"
           onPress={() =>{handleLogin({globalState,setDiscordSignin,setGlobalState,discordSigninStatus})}}
         />:     <View style={styles.bars}>
-          <Bubbles size={7} color="#FFFFFF" />
+          <Bubbles size={7} color="#FFFFFF" /> 
       </View>}
         </View>      
       )}
