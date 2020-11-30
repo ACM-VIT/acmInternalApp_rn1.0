@@ -2,6 +2,7 @@ import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
+import NewProjectScreen from '../screens/NewProjectScreen';
 
 import NotFoundScreen from '../screens/NotFoundScreen';
 import Onboarding from '../screens/OnboardingScreen';
@@ -30,6 +31,7 @@ function RootNavigator() {
     <Stack.Navigator screenOptions={{ headerShown: false}}>
       <Stack.Screen name="Root" component={BottomTabNavigator} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+      <Stack.Screen name="NewProject" component={NewProjectScreen} options={{ title: 'New Project' }} />
     </Stack.Navigator>
   );
 }
