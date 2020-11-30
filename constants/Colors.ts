@@ -13,7 +13,8 @@ export const defaultTheme =  {
   topHeaderBackground:"#17202A",
   newProjectButton:'#2f95dc',
   // postBackgroundColor:'#1C2D3E'
-  postBackgroundColor:'#1C2D3E'
+  postBackgroundColor:'#1C2D3E',
+  primaryButtonColor:'#1ABCFE'
 };
 
 export default {
