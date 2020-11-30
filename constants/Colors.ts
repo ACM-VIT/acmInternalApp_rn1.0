@@ -11,7 +11,9 @@ export const defaultTheme =  {
   tabsColor:'#D3D3D3',
   bottomNavBackgroundColor:"#17202A",
   topHeaderBackground:"#17202A",
-  newTweetButton:'#2f95dc'
+  newProjectButton:'#2f95dc',
+  // postBackgroundColor:'#1C2D3E'
+  postBackgroundColor:'#1C2D3E'
 };
 
 export default {

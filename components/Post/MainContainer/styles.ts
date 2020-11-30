@@ -4,13 +4,31 @@ import Colors from "../../../constants/Colors";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1C2D3E',
+    backgroundColor: Colors.currentTheme.postBackgroundColor,
     padding:15,
     borderRadius:8,
     zIndex:100,
     position:"relative",
     right:13,
     marginRight:13,
+//     shadowColor: "#000",
+// shadowOffset: {
+// 	width: 0,
+// 	height: 1,
+// },
+// shadowOpacity: 0.22,
+// shadowRadius: 2.22,
+
+// elevation: 3,
+shadowColor: "#000",
+shadowOffset: {
+	width: 0,
+	height: 3,
+},
+shadowOpacity: 0.27,
+shadowRadius: 4.65,
+
+elevation: 6,
   },
   tweetHeaderConatiner: {
     flexDirection: "row",

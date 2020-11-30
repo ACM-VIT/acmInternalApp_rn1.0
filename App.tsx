@@ -37,7 +37,7 @@ export default function App() {
   const [globalState,setGlobalState] = useState<IGlobalState>({});
 
   useEffect(() => {
-    AsyncStorage.clear();
+    //AsyncStorage.clear();
     AsyncStorage.getItem('onboarding').then((val) => {
         if(val) setOnboarding(false);
     });

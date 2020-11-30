@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 import Colors from "../../constants/Colors";
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: Colors.currentTheme.newTweetButton,
+    backgroundColor: Colors.currentTheme.newProjectButton,
     position: "absolute",
     bottom: 15,
     right: 20,

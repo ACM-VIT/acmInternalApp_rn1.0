@@ -3,7 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import styles from "./styles";
-const NewTweetButton = () => {
+const NewProjectButton = () => {
   const navigation = useNavigation();
 
   const onPress = () => {
@@ -20,4 +20,4 @@ const NewTweetButton = () => {
   );
 };
 
-export default NewTweetButton;
+export default NewProjectButton;
