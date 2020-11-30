@@ -14,6 +14,7 @@ import mockData from '../fetchRequests/feed'
 import { UserType } from '../global';
 import ProfilePicture from '../components/ProfileComponent';
 import assets from '../constants/assets'
+import GlobalState from "../contexts/GlobalState";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -72,14 +73,22 @@ function TabOneNavigator() {
     username:"",
     profilePic:"", 
   });
+  const [globalState,setGlobalState] = React.useContext(GlobalState);
 
   React.useEffect(() => {
     // get the current user
     const fetchUser = async () => {
-     setUser(mockData[0]?.user)
+     setUser({name:globalState.googleUser.name,username:globalState.discordUser.username,profilePic:globalState.googleUser.photoUrl})
     }
     fetchUser();
+    console.log("Global" + JSON.stringify(globalState));
+    console.log(user);
   }, [])
+
+  React.useEffect(() => {
+    console.log(user);
+  }, [user])
+
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
@@ -99,7 +108,7 @@ function TabOneNavigator() {
          // <Text style={{color:"white",fontFamily:"billabong",fontSize:32,letterSpacing:2,marginTop:25}}>Acm Internal</Text>
         ),
         headerRight: () => (
-          <ProfilePicture size={35} image={user?.profilePic} />
+          <ProfilePicture size={40} image={user?.profilePic} />
         ),
         headerStyle:{
           backgroundColor:Colors.currentTheme.topHeaderBackground,

@@ -19,6 +19,7 @@ import Constants from 'expo-constants'
 import { Platform } from 'react-native';
 import GlobalState,{IGlobalState} from './contexts/GlobalState';
 
+
 const fetchFonts = () => {
   return Font.loadAsync({
   'billabong': require('./assets/fonts/Billabong.ttf'),

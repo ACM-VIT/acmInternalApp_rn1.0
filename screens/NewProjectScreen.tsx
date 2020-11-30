@@ -1,27 +1,35 @@
 import * as React from 'react';
-import { StyleSheet,View,Text } from 'react-native';
-
+import {StyleSheet,View,Text,SafeAreaView} from 'react-native';
 import Colors from '../constants/Colors';
+import { AntDesign } from '@expo/vector-icons';
 
 export default function NewProjectScreen() {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.header}>
+      <AntDesign name="arrowleft" size={32} color="white" />
+      </SafeAreaView>
       <Text style={styles.title}>New Project</Text>
       <View style={styles.separator} />
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: Colors.currentTheme.bgMain
+    backgroundColor: Colors.currentTheme.bgMain,
+    borderColor:"white",
+  },
+  header:{
+    backgroundColor:"red",
+    width:"100%",
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
+    color:"white",
+    height:100
   },
   separator: {
     marginVertical: 30,
