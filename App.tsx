@@ -1,6 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useRef, useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import * as Font from 'expo-font';
+import { AppLoading } from 'expo';
 
 
 import useCachedResources from './hooks/useCachedResources';
@@ -16,6 +18,12 @@ import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants'
 import { Platform } from 'react-native';
 import GlobalState,{IGlobalState} from './contexts/GlobalState';
+
+const fetchFonts = () => {
+  return Font.loadAsync({
+  'billabong': require('./assets/fonts/Billabong.ttf'),
+  });
+};
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -35,6 +43,7 @@ export default function App() {
   const notificationListener = useRef<any>();
   const responseListener = useRef<any>();
   const [globalState,setGlobalState] = useState<IGlobalState>({});
+  const [fontLoaded,setFontLoaded] = useState(false);
 
   useEffect(() => {
     //AsyncStorage.clear();
@@ -85,6 +94,7 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
+          {fontLoaded &&<AppLoading startAsync={fetchFonts} onFinish={()=>setFontLoaded(true)}/>}
          <GlobalState.Provider value={[globalState,setGlobalState]}>
         {onboarding  && <Onboarding setOnboarding={setOnboarding} />}
         {!onboarding  && <Navigation colorScheme={colorScheme} />}
