@@ -15,7 +15,8 @@ export const defaultTheme =  {
   // postBackgroundColor:'#1C2D3E'
   postBackgroundColor:'#1C2D3E',
   primaryButtonColor:'#1ABCFE',
-  tagsColor:'#1C2D3E'
+  tagsColor:'#1C2D3E',
+  tagsTextColor:"#fff",
 };
 
 export default {

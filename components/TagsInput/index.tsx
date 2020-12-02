@@ -65,8 +65,8 @@ export default class App extends React.Component<props,state> {
  
 const styles = StyleSheet.create({
   container: {
-    height:100,
-    justifyContent: 'center',
+    flex:1,
+    justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: mainColor,
     marginLeft:5,
@@ -81,9 +81,10 @@ const styles = StyleSheet.create({
       padding: 3,
     },
     tag: {
-        backgroundColor: Colors.currentTheme.tagsColor
+        backgroundColor: Colors.currentTheme.tagsColor,
+        borderColor:Colors.currentTheme.primaryButtonColor
       },
     tagText: {
-        color: mainColor
+        color: Colors.currentTheme.tagsTextColor
       },
 });
