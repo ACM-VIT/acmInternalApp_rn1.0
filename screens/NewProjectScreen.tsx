@@ -21,11 +21,11 @@ export default function NewTweetScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
-      <TouchableOpacity onPress={()=>navigation.navigate("Root")} style={styles.button}>
+      <TouchableOpacity onPress={()=>navigation.navigate("Root")} >
         <AntDesign name="close" size={30} color={"white"} />
         </TouchableOpacity>
         <TouchableOpacity onPress={onPostTweet} style={styles.button}>
-          <Text style={styles.buttonText}>Tweet</Text>
+          <Text style={styles.buttonText}>Post</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.tweetInputContainer}>
