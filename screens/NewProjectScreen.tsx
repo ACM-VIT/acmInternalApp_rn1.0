@@ -7,10 +7,12 @@ import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ProfilePicture from "../components/ProfileComponent";
 import tweets from "../fetchRequests/feed";
+import {useNavigation} from '@react-navigation/native'
 
 export default function NewTweetScreen() {
   const [tweet, setTweet] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const navigation = useNavigation();
 
   const onPostTweet = () => {
     console.log(`Posting the new tweet ${tweet} 
@@ -19,7 +21,9 @@ export default function NewTweetScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
+      <TouchableOpacity onPress={()=>navigation.navigate("Root")} style={styles.button}>
         <AntDesign name="close" size={30} color={"white"} />
+        </TouchableOpacity>
         <TouchableOpacity onPress={onPostTweet} style={styles.button}>
           <Text style={styles.buttonText}>Tweet</Text>
         </TouchableOpacity>
