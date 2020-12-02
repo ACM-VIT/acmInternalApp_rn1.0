@@ -1,41 +1,89 @@
-
-import React from "react";
-import { TouchableOpacity, Text,View,StyleSheet } from "react-native";
-import TagInput from 'react-native-tag-input';
-import Colors from "../../constants/Colors";
+import React, { Component } from 'react';
+import {
+  Dimensions,
+  StyleSheet,
+  View
+} from 'react-native';
  
+import TagInput from 'react-native-tags-input';
+import Colors from '../../constants/Colors' 
+const mainColor = Colors.currentTheme.bgMain;
 
-const MyTagInput = () => {
-  const [tags,setTags] = React.useState<Array<string>>([]);
-  const [text,setText] = React.useState<string>(" ");
-  return <TagInput
-  value={tags}
-  onChange={(tag:string) => setTags([...tags,tag])}
-  labelExtractor={(email:string) => email}
-  text={text}
-  onChangeText={(textInput:string) => setText(text)}
-/>
-};
-export default MyTagInput;
-
-const styles = StyleSheet.create({
-  tags:{
-    backgroundColor:Colors.currentTheme.postBackgroundColor,
-    borderRadius:10,
-    paddingVertical:5,
-    paddingHorizontal:14,
-    marginRight:10,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
+type props = {};
+type state = {
+    tags: {
+      tag: string,
+      tagsArray: string[]
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-
-    elevation: 5,
+    tagsColor: string,
+    tagsText:string,
+}
+ 
+export default class App extends React.Component<props,state> {
+  constructor(props:any) {
+    super(props);
+    this.state = {
+      tags: {
+        tag: '',
+        tagsArray: []
+      },
+      tagsColor: mainColor,
+      tagsText: '#fff',
+    };
+  }
+  
+  updateTagState = (state:any) => {
+      this.setState({
+        tags: state
+      })
+    };
+ 
+  render() {
+    return (
+      <View style={styles.container}>
+        <TagInput
+          updateState={this.updateTagState}
+          tags={this.state.tags}
+          placeholder="Tags..."                            
+          label='Press comma & space to add a tag'
+          labelStyle={{color: '#fff'}}
+         // leftElement={<Icon name={'tag-multiple'} type={'material-community'} color={this.state.tagsText}/>}
+          leftElementContainerStyle={{marginLeft: 3}}
+          containerStyle={{width: (Dimensions.get('window').width - 40)}}
+          inputContainerStyle={[styles.textInput, {backgroundColor: this.state.tagsColor}]}
+          inputStyle={{color: this.state.tagsText}}
+          onFocus={() => this.setState({tagsColor: '#fff', tagsText: mainColor})}
+          onBlur={() => this.setState({tagsColor: mainColor, tagsText: '#fff'})}
+          autoCorrect={false}
+          tagStyle={styles.tag}
+          tagTextStyle={styles.tagText}
+          keysForTag={', '}/>
+      </View>
+    );
+  }
+}
+ 
+const styles = StyleSheet.create({
+  container: {
+    height:100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: mainColor,
+    marginLeft:5,
+    borderRadius:8,
   },
-  tagsText:{
-    color:"#fff",
-  },
+  textInput: {
+      height: 40,
+      borderColor: 'white',
+      borderWidth: 1,
+      marginVertical: 8,
+      borderRadius: 5,
+      padding: 3,
+    },
+    tag: {
+        backgroundColor: Colors.currentTheme.tagsColor
+      },
+    tagText: {
+        color: mainColor
+      },
 });

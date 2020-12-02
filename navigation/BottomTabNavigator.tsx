@@ -78,9 +78,9 @@ function TabOneNavigator() {
   React.useEffect(() => {
     // get the current user
     const fetchUser = async () => {
-     setUser({name:globalState.googleUser.name,username:globalState.discordUser.username,profilePic:globalState.googleUser.photoUrl})
+     setUser({name:globalState.googleUser.name || " ",username:globalState.discordUser.username || " ",profilePic:globalState.googleUser.photoUrl || " "})
     }
-    fetchUser();
+    fetchUser().catch(err=>console.log(err));
     console.log("Global" + JSON.stringify(globalState));
     console.log(user);
   }, [])

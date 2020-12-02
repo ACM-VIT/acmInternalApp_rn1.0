@@ -1,1 +1,1 @@
-declare module 'react-native-tag-input';
+declare module 'react-native-tags-input';

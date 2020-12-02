@@ -57,7 +57,7 @@ export default function NewTweetScreen() {
             placeholder={"Add in a brief desc bout what your project is about"}
           />
           <Text>{"\n"}</Text>
-          <Text style={styles.formTitle}>Domain</Text>
+          <Text style={styles.formTitle}>Tags</Text>
           <TagsInput/>
         </View>
     </SafeAreaView>

@@ -14,7 +14,8 @@ export const defaultTheme =  {
   newProjectButton:'#2f95dc',
   // postBackgroundColor:'#1C2D3E'
   postBackgroundColor:'#1C2D3E',
-  primaryButtonColor:'#1ABCFE'
+  primaryButtonColor:'#1ABCFE',
+  tagsColor:'#1C2D3E'
 };
 
 export default {
