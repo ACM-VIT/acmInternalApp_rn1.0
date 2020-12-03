@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.currentTheme.searchBackground,
         flexDirection:"row",
         alignItems:"center",
-        height:60,
+        height:50,
         width:"81%",
         marginTop:10,
         marginLeft:8,

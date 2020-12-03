@@ -10,7 +10,7 @@ import HomeScreen from '../screens/HomeScreen';
 import TabThreeScreen from '../screens/TabThreeScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import { BottomTabParamList, TabFourParamList, TabOneParamList, TabThreeParamList, TabTwoParamList } from '../types';
-import mockData from '../fetchRequests/feed'
+import mockData from '../ApiRequests/feed'
 import { UserType } from '../global';
 import ProfilePicture from '../components/ProfileComponent';
 import assets from '../constants/assets'

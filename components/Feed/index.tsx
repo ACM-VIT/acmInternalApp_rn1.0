@@ -1,6 +1,6 @@
 import React from "react";
 import { View, FlatList } from "react-native";
-import posts from "../../fetchRequests/feed";
+import posts from "../../ApiRequests/feed";
 import Post from "../Post";
 
 const Feed = () => (

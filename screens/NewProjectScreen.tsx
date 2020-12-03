@@ -1,20 +1,75 @@
 import { AntDesign } from "@expo/vector-icons";
-import React, { useState } from "react";
-import { StyleSheet } from "react-native";
+import React, { useContext, useState } from "react";
+import { ToastAndroid,StyleSheet } from "react-native";
 import Colors from "../constants/Colors";
 import {Text,View} from 'react-native'
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import {useNavigation} from '@react-navigation/native'
 import { SafeAreaView } from "react-native-safe-area-context";
-import TagsInput from '../components/TagsInput'
+import TagsInput from '../components/TagsInput';
+import CreateNewProject from '../ApiRequests/newProject'
+import newProject from "../ApiRequests/newProject";
+import GlobalState from "../contexts/GlobalState";
+
+export type IProjectType = {
+  name:undefined|string,
+  image:string|undefined,
+  desc:undefined|string,
+  tags:Array<string>
+}
+
+
 export default function NewTweetScreen() {
-  const [tweet, setTweet] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [project, setProject] = useState<IProjectType>({
+    name:undefined,
+    image:undefined,
+    desc:undefined,
+    tags:[],
+  });
   const navigation = useNavigation();
+  const [globalState,setGlobalState] = useContext(GlobalState);
+
+ // React.useEffect(()=>{console.log("New project State: ",project)},[project]);
 
   const onPostTweet = () => {
-    console.log(`Posting the new tweet ${tweet} 
-      with image ${imageUrl}`);
+    if(!project.name || !project.desc) {
+      ToastAndroid.showWithGravityAndOffset(
+        "Lol, add in the project name and desc dumbass",
+        ToastAndroid.LONG,
+        ToastAndroid.BOTTOM,
+        25,
+        50
+      );
+      return;
+    }
+    if(!project.image)
+      setProject({...project,image:" "})
+    const accessToken = globalState.tokens?.accessToken;
+    if(!accessToken) {
+      ToastAndroid.showWithGravityAndOffset(
+        "New Project Failed to Publish as Access Tokens tokens failed to retrieve",
+        ToastAndroid.LONG,
+        ToastAndroid.BOTTOM,
+        25,
+        50
+      );
+      return;
+    }
+    console.log("accessToken for new project: ",accessToken);
+    CreateNewProject(project,accessToken).then((backendRes)=>{
+      console.log(`Posting the new project ${JSON.stringify(project)} `);
+      console.log(`response of new project from backend: ${JSON.stringify(backendRes)}`);
+    }).catch(err=>{
+      ToastAndroid.showWithGravityAndOffset(
+        "Oops ! failed to publish project :(",
+        ToastAndroid.LONG,
+        ToastAndroid.BOTTOM,
+        25,
+        50
+      );
+      console.log(err)
+    })
+   
   };
 
 
@@ -33,12 +88,16 @@ export default function NewTweetScreen() {
           <Text style={styles.formTitle}>New Project </Text>
           <Text style={styles.formText}>Project name</Text>
           <TextInput
+            value={project.name}
+            onChangeText={(text)=>{setProject({...project,name:text})}}
             placeholderTextColor={'grey'}
             style={styles.imageInput}
             placeholder={"Enter your project name"}
           />
           <Text style={styles.formText}>Add A Image of your Project</Text>
           <TextInput
+            value={project.image}
+            onChangeText={(text)=>{setProject({...project,image:text})}}
             placeholderTextColor={'grey'}
             style={styles.imageInput}
             placeholder={"Image url (optional)`"}
@@ -46,10 +105,10 @@ export default function NewTweetScreen() {
           <Text style={styles.formText}>Description</Text>
           <TextInput
             placeholderTextColor={'grey'}
-            value={tweet}
+            value={project.desc}
             textAlignVertical={'top'}
             onChangeText={(text) => {
-              setTweet(text);
+              setProject({...project,desc:text});
             }}
             style={styles.tweetInput}
             multiline={true}
@@ -58,7 +117,7 @@ export default function NewTweetScreen() {
           />
           <Text>{"\n"}</Text>
           <Text style={styles.formTitle}>Tags</Text>
-          <TagsInput/>
+          <TagsInput project={project} setProject={setProject}/>
         </View>
     </SafeAreaView>
   );

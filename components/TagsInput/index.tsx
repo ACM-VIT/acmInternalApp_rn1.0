@@ -8,8 +8,13 @@ import {
 import TagInput from 'react-native-tags-input';
 import Colors from '../../constants/Colors' 
 const mainColor = Colors.currentTheme.bgMain;
+import {GenericFunc}from '../../global'
+import {IProjectType} from '../../screens/NewProjectScreen'
 
-type props = {};
+type props = {
+  project:IProjectType
+  setProject:GenericFunc
+};
 type state = {
     tags: {
       tag: string,
@@ -36,6 +41,7 @@ export default class App extends React.Component<props,state> {
       this.setState({
         tags: state
       })
+      this.props.setProject({...this.props.project,tags:this.state.tags.tagsArray});
     };
  
   render() {
