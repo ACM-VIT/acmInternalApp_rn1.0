@@ -47,10 +47,14 @@ export default function App() {
   const [fontLoaded,setFontLoaded] = useState(false);
 
   useEffect(() => {
-    //AsyncStorage.clear();
+   // AsyncStorage.clear();
     AsyncStorage.getItem('onboarding').then((val) => {
-        if(val) setOnboarding(false);
-    });
+        if(val) {
+          console.log(val);
+          console.log("onboarding disabled");
+          setOnboarding(false)
+        };
+    }).catch((err)=> console.log("err in onboarding fetch from memory ",err));
 
     registerForPushNotificationsAsync().then(token => setExpoPushToken(token as React.SetStateAction<string>));
 
@@ -77,10 +81,9 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    // AsyncStorage.clear();
     AsyncStorage.getItem('onboarding').then((val) => {
       if(!val){
-        AsyncStorage.setItem("onboarding","true");
+         AsyncStorage.setItem("onboarding","true");
       }
     });
        

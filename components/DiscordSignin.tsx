@@ -6,6 +6,7 @@ import { baseUrl, discordApi, discordClientId, discordClientSecret, discordOauth
 import { GenericFunc } from "../global";
 import GlobalState, { IGlobalState } from "../contexts/GlobalState";
 import {Bubbles} from 'react-native-loader';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 
@@ -97,9 +98,7 @@ export default function DiscordSignin({setDiscordSignin,discordSigninStatus}:Dis
   const [name, setName] = React.useState(null);
   const [globalState,setGlobalState] = React.useContext(GlobalState);
   const [tokens,setTokens] = React.useState<tokens>({accessToken:"",refreshToken:""});
-React.useEffect(()=>{
-},[])
-  
+
   return (
     <View style={styles.container}>
       {name ? (

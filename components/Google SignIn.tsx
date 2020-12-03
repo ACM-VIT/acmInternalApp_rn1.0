@@ -73,7 +73,6 @@ export default function GoogleSignIn({buttonPress,setButtonPress,handlePageChang
           return;
         }
         console.log(loginReponse.data.tokens);
-        console.log("Global State: ",globalState);
         const fcm_token = await AsyncStorage.getItem("fcm_token");
         if(!fcm_token){
           console.warn("error");
