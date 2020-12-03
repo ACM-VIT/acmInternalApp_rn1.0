@@ -12,15 +12,15 @@ const SearchBarContainer = ()=>{
     const [query,setQuery] = React.useState("");
     return(
         <View style={styles.container}>
-        <AntDesign name="search1" size={24} color="black" style={styles.searchIcon}/>
+        <AntDesign name="search1" size={20} color="black" style={styles.searchIcon}/>
         <TextInput
           autoCapitalize="none"
           autoCorrect={false}
           clearButtonMode="always"
           value={query}
           onChangeText={queryText => setQuery(queryText)}
-          placeholder="Search"
-          placeholderTextColor={ Colors.currentTheme.primaryButtonColor}
+          placeholder="Search users, projects.."
+          placeholderTextColor={ Colors.currentTheme.searchTextColor}
           style={styles.searchBar}
         />
 
@@ -44,12 +44,12 @@ const styles = StyleSheet.create({
         backgroundColor:Colors.currentTheme.searchBackground,
         width:"82%",
         borderRadius:8,
-        fontSize:20,
-        color:Colors.currentTheme.primaryButtonColor,
+        fontSize:15,
+        color:Colors.currentTheme.searchTextColor
     },
     searchIcon: {
-        marginRight:8,
-        //color:Colors.currentTheme.primaryButtonColor,
+        marginRight:10,
+        color:Colors.currentTheme.searchTextColor,
     }
 });
 
