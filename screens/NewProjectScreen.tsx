@@ -29,7 +29,7 @@ export default function NewTweetScreen() {
   const navigation = useNavigation();
   const [globalState,setGlobalState] = useContext(GlobalState);
 
- // React.useEffect(()=>{console.log("New project State: ",project)},[project]);
+ React.useEffect(()=>{console.log("New project State: ",project)},[project]);
 
   const onPostTweet = () => {
     if(!project.name || !project.desc) {
@@ -55,10 +55,17 @@ export default function NewTweetScreen() {
       );
       return;
     }
-    console.log("accessToken for new project: ",accessToken);
+   // console.log("accessToken for new project: ",accessToken);
     CreateNewProject(project,accessToken).then((backendRes)=>{
       console.log(`Posting the new project ${JSON.stringify(project)} `);
       console.log(`response of new project from backend: ${JSON.stringify(backendRes)}`);
+      ToastAndroid.showWithGravityAndOffset(
+        "Project Successfully Published ! \nNotifying the gang ...",
+        ToastAndroid.LONG,
+        ToastAndroid.BOTTOM,
+        25,
+        50
+      );
     }).catch(err=>{
       ToastAndroid.showWithGravityAndOffset(
         "Oops ! failed to publish project :(",

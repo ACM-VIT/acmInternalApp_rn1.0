@@ -4,13 +4,16 @@
     "slug": "acminternalapprn",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/acmLogo.png",
     "scheme": "acminternalapprn",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
+    },
+    "notification": {
+      "icon": "./assets/images/acmLogo.png"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
