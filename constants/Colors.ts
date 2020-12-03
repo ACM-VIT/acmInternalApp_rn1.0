@@ -17,6 +17,7 @@ export const defaultTheme =  {
   primaryButtonColor:'#1ABCFE',
   tagsColor:'#1C2D3E',
   tagsTextColor:"#fff",
+  searchBackground:"#263C54"
 };
 
 export default {

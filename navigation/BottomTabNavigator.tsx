@@ -68,27 +68,8 @@ function TabBarIcon(props: { name: string; color: string }) {
 const HomeStack = createStackNavigator<TabOneParamList>();
 
 function TabOneNavigator() {
-  const [user,setUser] = React.useState<UserType>({
-    name:"",
-    username:"",
-    profilePic:"", 
-  });
-  const [globalState,setGlobalState] = React.useContext(GlobalState);
-
-  React.useEffect(() => {
-    // get the current user
-    const fetchUser = async () => {
-     setUser({name:globalState.googleUser.name || " ",username:globalState.discordUser.username || " ",profilePic:globalState.googleUser.photoUrl || " "})
-    }
-    fetchUser().catch(err=>console.log(err));
-    console.log("Global" + JSON.stringify(globalState));
-    console.log(user);
-  }, [])
-
-  React.useEffect(() => {
-    console.log(user);
-  }, [user])
-
+ 
+ 
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
@@ -96,23 +77,7 @@ function TabOneNavigator() {
         component={HomeScreen}
         options={{
         animationEnabled: false ,
-        headerRightContainerStyle: {
-          marginRight: 15,
-        },
-        headerLeftContainerStyle: {
-          marginLeft: 15,
-        },
-        headerTitle:" ",
-        headerLeft: () => (
-           <ProfilePicture size={40} image={assets.acmLogo}/>
-         // <Text style={{color:"white",fontFamily:"billabong",fontSize:32,letterSpacing:2,marginTop:25}}>Acm Internal</Text>
-        ),
-        headerRight: () => (
-          <ProfilePicture size={40} image={user?.profilePic} />
-        ),
-        headerStyle:{
-          backgroundColor:Colors.currentTheme.topHeaderBackground,
-        }
+        headerShown:false,
       }}
       />
     </HomeStack.Navigator>
