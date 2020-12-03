@@ -67,9 +67,9 @@ const styles = StyleSheet.create({
   container: {
     flex:1,
     justifyContent: 'flex-start',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     backgroundColor: mainColor,
-    marginLeft:5,
+    marginLeft:0,
     borderRadius:8,
   },
   textInput: {
