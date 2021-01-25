@@ -9,6 +9,7 @@ import useColorScheme from '../hooks/useColorScheme';
 import HomeScreen from '../screens/HomeScreen';
 import TabThreeScreen from '../screens/TabThreeScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
+import ProfileScreen from '../screens/ProfileScreen'
 import { BottomTabParamList, TabFourParamList, TabOneParamList, TabThreeParamList, TabTwoParamList } from '../types';
 import mockData from '../ApiRequests/feed'
 import { UserType } from '../global';
@@ -47,10 +48,12 @@ export default function BottomTabNavigator() {
         }}
       />
         <BottomTab.Screen
-        name="TabFour"
+        name="Profile"
         component={TabFourNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-mail" color={color} />,
+          tabBarIcon: ({color}) =>{
+            return <TabBarIcon name="md-information-circle-outline"color={color} />
+          }
         }}
       />
     </BottomTab.Navigator>
@@ -118,9 +121,12 @@ function TabFourNavigator() {
   return (
     <TabFourStack.Navigator>
       <TabFourStack.Screen
-        name="TabFourScreen"
-        component={TabThreeScreen}
-        options={{}}
+        name="ProfileScreen"
+        component={ProfileScreen}
+       options={{
+          animationEnabled: false ,
+          headerShown:false,
+        }}
       />
     </TabFourStack.Navigator>
   );

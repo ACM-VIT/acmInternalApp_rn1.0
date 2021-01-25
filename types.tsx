@@ -9,7 +9,7 @@ export type BottomTabParamList = {
   Home: undefined;
   TabTwo: undefined;
   TabThree: undefined;
-  TabFour: undefined;
+  Profile: undefined;
 };
 
 export type TabOneParamList = {
@@ -25,7 +25,7 @@ export type TabThreeParamList = {
 };
 
 export type TabFourParamList = {
-  TabFourScreen: undefined;
+  ProfileScreen: undefined;
 };
 
 
