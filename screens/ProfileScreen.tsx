@@ -8,13 +8,14 @@ import Colors from '../constants/Colors';
 import ProfilePicture from '../components/ProfileComponent';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {GenericFunc} from '../global'
+import ViewPager from '@react-native-community/viewpager';
 
-const FirstRoute = () => (
-  <View style={[styles.tabView, { backgroundColor: '#ff4081' }]} />
+const InfoScreen = () => (
+  <View key="1" style={[styles.tabView, { backgroundColor: '#ff4081' }]} />
 );
  
-const SecondRoute = () => (
-  <View style={[styles.tabView, { backgroundColor: '#673ab7' }]} />
+const SettingScreen = () => (
+  <View key="2" style={[styles.tabView, { backgroundColor: '#673ab7' }]} />
 );
 
 
@@ -37,10 +38,17 @@ const Tab = ({curr_tab,setTab,name,tab_num}:ITabProps) => (
 
 export default function ProfileScreen() {
   const [globalState,setGlobalState] = React.useContext(GlobalState);
-  const [tab, setTab] = React.useState(0);
+  const [tab, setTab] = React.useState(1);
+  const pagerRef = React.useRef<ViewPager>(null);
   React.useEffect(()=>{
     console.log(globalState)
   });
+
+  const handlePageChange = (pageNumber:number) => {
+    if(pagerRef.current)
+      pagerRef.current.setPage(pageNumber);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -62,10 +70,15 @@ export default function ProfileScreen() {
       </View>
       <View style={styles.tabView}>
         <View style={styles.tabs}>
-        <Tab setTab={setTab} curr_tab={tab} tab_num={1} name={"Info"}/>
-        <Tab setTab={setTab} curr_tab={tab} tab_num={2} name={"Settings"}/>
+          <Text>Info</Text>
+          <Text>Settings</Text>
         </View>
-      
+        <View style={styles.tab_screen}>
+          <ViewPager style={{ flex: 1 }} ref={pagerRef}>
+              <InfoScreen />
+              <SettingScreen />
+          </ViewPager>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -189,5 +202,8 @@ const styles = StyleSheet.create({
     width:"100%",
     justifyContent:"space-between",
     paddingHorizontal:30
+  },
+  tab_screen:{
+    flex:1,
   }
 });
