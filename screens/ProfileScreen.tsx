@@ -6,32 +6,38 @@ import GlobalState, { IGlobalState } from '../contexts/GlobalState';
 
 import Colors from '../constants/Colors';
 import ProfilePicture from '../components/ProfileComponent';
-
-
-import { TabView, SceneMap } from 'react-native-tab-view';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import {GenericFunc} from '../global'
 
 const FirstRoute = () => (
-  <View style={[styles.scene, { backgroundColor: '#ff4081' }]} />
+  <View style={[styles.tabView, { backgroundColor: '#ff4081' }]} />
 );
  
 const SecondRoute = () => (
-  <View style={[styles.scene, { backgroundColor: '#673ab7' }]} />
+  <View style={[styles.tabView, { backgroundColor: '#673ab7' }]} />
 );
- 
-const renderScene = SceneMap({
-  first: FirstRoute,
-  second: SecondRoute,
-});
 
-const initialLayout = { width: Dimensions.get('window').width };
+
+interface ITabProps {
+  name:string;
+  tab_num:number;
+  setTab:GenericFunc;
+  curr_tab:number;
+}
+
+const Tab = ({curr_tab,setTab,name,tab_num}:ITabProps) => (
+  <TouchableOpacity onPress={setTab(curr_tab)}>
+      <View style={curr_tab===tab_num?styles.activeTab:styles.inactiveTab}>
+    <Text style={curr_tab===tab_num?styles.activeTab_Text:styles.inactiveTab_Text}>{name}</Text>
+    </View >
+ </TouchableOpacity>
+)
+ 
+
 
 export default function ProfileScreen() {
   const [globalState,setGlobalState] = React.useContext(GlobalState);
-  const [index, setIndex] = React.useState(0);
-  const [routes] = React.useState([
-    { key: 'first', title: 'First' },
-    { key: 'second', title: 'Second' },
-  ]);
+  const [tab, setTab] = React.useState(0);
   React.useEffect(()=>{
     console.log(globalState)
   });
@@ -53,14 +59,14 @@ export default function ProfileScreen() {
             <Text style={styles.bio_main}>Core Memember since 2019</Text>
             <Text style={styles.bio_subtitle}>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cum sapiente tempore, debitis dolorem Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia, eaque. </Text>
           </View>
-            <TabView
-        navigationState={{ index, routes }}
-        renderScene={renderScene}
-        onIndexChange={setIndex}
-        initialLayout={initialLayout}
-         />
       </View>
-    
+      <View style={styles.tabView}>
+        <View style={styles.tabs}>
+        <Tab setTab={setTab} curr_tab={tab} tab_num={1} name={"Info"}/>
+        <Tab setTab={setTab} curr_tab={tab} tab_num={2} name={"Settings"}/>
+        </View>
+      
+      </View>
     </SafeAreaView>
   );
 }
@@ -154,7 +160,34 @@ const styles = StyleSheet.create({
     flexShrink:1,
     fontSize:13
   },
-  scene: {
-    flex: 1,
+  inactiveTab_Text:{
+    color:"#828282",
+    fontSize:20,
   },
+  activeTab_Text:{
+    color:"#2D9CDB",
+    fontSize:20,
+  },
+  activeTab:{
+    borderBottomWidth:2,
+    borderBottomColor:"#2D9CDB",
+    width:'50%',
+    alignItems:'center',
+    paddingHorizontal:20,
+  },
+  inactiveTab:{
+    borderBottomWidth:0,
+    width:'50%',
+    alignItems:'center',
+    paddingHorizontal:20,
+  },
+  tabView:{
+    flex:1,
+  },
+  tabs:{
+    flexDirection:"row",
+    width:"100%",
+    justifyContent:"space-between",
+    paddingHorizontal:30
+  }
 });
