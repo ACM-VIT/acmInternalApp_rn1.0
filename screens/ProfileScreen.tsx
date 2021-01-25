@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet,View,Text} from 'react-native';
+import { StyleSheet,View,Text,Dimensions} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import GlobalState, { IGlobalState } from '../contexts/GlobalState';
 
@@ -7,8 +7,31 @@ import GlobalState, { IGlobalState } from '../contexts/GlobalState';
 import Colors from '../constants/Colors';
 import ProfilePicture from '../components/ProfileComponent';
 
+
+import { TabView, SceneMap } from 'react-native-tab-view';
+
+const FirstRoute = () => (
+  <View style={[styles.scene, { backgroundColor: '#ff4081' }]} />
+);
+ 
+const SecondRoute = () => (
+  <View style={[styles.scene, { backgroundColor: '#673ab7' }]} />
+);
+ 
+const renderScene = SceneMap({
+  first: FirstRoute,
+  second: SecondRoute,
+});
+
+const initialLayout = { width: Dimensions.get('window').width };
+
 export default function ProfileScreen() {
   const [globalState,setGlobalState] = React.useContext(GlobalState);
+  const [index, setIndex] = React.useState(0);
+  const [routes] = React.useState([
+    { key: 'first', title: 'First' },
+    { key: 'second', title: 'Second' },
+  ]);
   React.useEffect(()=>{
     console.log(globalState)
   });
@@ -30,7 +53,14 @@ export default function ProfileScreen() {
             <Text style={styles.bio_main}>Core Memember since 2019</Text>
             <Text style={styles.bio_subtitle}>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cum sapiente tempore, debitis dolorem Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia, eaque. </Text>
           </View>
+            <TabView
+        navigationState={{ index, routes }}
+        renderScene={renderScene}
+        onIndexChange={setIndex}
+        initialLayout={initialLayout}
+         />
       </View>
+    
     </SafeAreaView>
   );
 }
@@ -54,7 +84,7 @@ const styles = StyleSheet.create({
     width:'100%',
     height:'27%',
    // backgroundColor:'red'
-   marginBottom:20,
+     marginBottom:20,
   },
   bgEle: {
     width:'100%',
@@ -123,5 +153,8 @@ const styles = StyleSheet.create({
     lineHeight:15,
     flexShrink:1,
     fontSize:13
-  }
+  },
+  scene: {
+    flex: 1,
+  },
 });
