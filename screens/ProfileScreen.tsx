@@ -22,7 +22,9 @@ interface SecondRouteProps {
 }
  
 const SecondRoute = ({modalVisible,setModalVisible}:SecondRouteProps) => {
-  const [pwd, setPwd] = React.useState(" ")
+  const [pwd, setPwd] = React.useState(" ");
+  const [confirmpwd,setConfirmPwd] = React.useState(" ");
+  const [errmsg, seterrmsg] = React.useState("")
   return <View style={[styles.tab_screen, { backgroundColor: Colors.currentTheme.bgMain}]} >
      <Modal
         animationType="fade"
@@ -38,19 +40,21 @@ const SecondRoute = ({modalVisible,setModalVisible}:SecondRouteProps) => {
             <Text style={styles.modalTitleText}>CLI for GEEKS</Text>
             <Text style={styles.modalSubtitleText}>Set the password for use with the CLI</Text>
             <TextInput
-            style={{height: 50,width:'100%',color:'#fff',marginVertical:0}}
+            style={{height: 50,width:'100%',color:'#fff',marginVertical:10}}
             placeholder="Enter Password"
             placeholderTextColor="#fff"
             onChangeText={input=> setPwd(input)}
-            defaultValue={pwd}
+            value={pwd}
           />
            <TextInput
             style={{height: 50,width:'100%',color:'#fff',marginBottom:30}}
             placeholder="Confirm Password"
             placeholderTextColor="#fff"
-            onChangeText={input=> setPwd(input)}
-            defaultValue={pwd}
+            onChangeText={input=> setConfirmPwd(input)}
+            value={confirmpwd}
+          //  defaultValue={confirmpwd}
           />
+          <Text>{errmsg}</Text>
             <TouchableWithoutFeedback
               style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
               onPress={() => {
@@ -66,6 +70,9 @@ const SecondRoute = ({modalVisible,setModalVisible}:SecondRouteProps) => {
       <TouchableWithoutFeedback
         style={styles.openButton}
         onPress={() => {
+          if(confirmpwd != pwd) {
+            
+          }
           setModalVisible(true);
         }}
       >
