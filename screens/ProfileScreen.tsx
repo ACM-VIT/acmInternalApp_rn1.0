@@ -41,7 +41,31 @@ const SecondRoute = ({modalVisible,setModalVisible}:SecondRouteProps) => {
             <Dev/>
             <Text style={styles.modalTitleText}>CLI for GEEKS</Text>
             <Text style={styles.modalSubtitleText}>Set the password for use with the CLI</Text>
-           
+            <TextInput
+          style={{height: 45,width: "100%"/*,borderColor: "gray",borderWidth: 2*/,alignSelf:"flex-start",paddingRight:'70%',paddingLeft:'10%',color:"#fff",marginBottom:5}}
+          // Adding hint in TextInput using Placeholder option.
+          placeholder=" Enter Your Password"
+          placeholderTextColor="#fff"
+          // Making the Under line Transparent.
+          underlineColorAndroid="transparent"
+          // Making the Text Input Text Hidden.
+          secureTextEntry={true}
+          value={pwd}
+          onChangeText={(input:any)=>setPwd(input)}
+        />
+         <TextInput
+          style={{height: 45,width: "100%"/*,borderColor: "gray",borderWidth: 2*/,alignSelf:"flex-start",paddingRight:'75%',paddingLeft:'10%',color:"#fff",marginBottom:20}}
+          // Adding hint in TextInput using Placeholder option.
+          placeholder=" Confirm Your Password"
+          placeholderTextColor="#fff"
+          // Making the Under line Transparent.
+          underlineColorAndroid="transparent"
+          // Making the Text Input Text Hidden.
+          secureTextEntry={true}
+          value={confirmpwd}
+          onChangeText={(input:any)=>setConfirmPwd(input)}
+        />
+
           <Text>{errmsg}</Text>
             <TouchableWithoutFeedback
               style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
