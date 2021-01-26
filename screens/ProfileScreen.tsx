@@ -2,7 +2,7 @@ import * as React from 'react';
 import { StyleSheet,View,Text,Dimensions} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import GlobalState, { IGlobalState } from '../contexts/GlobalState';
-import { TabView, SceneMap } from 'react-native-tab-view';
+import { TabBar,TabView, SceneMap } from 'react-native-tab-view';
 
 
 import Colors from '../constants/Colors';
@@ -19,13 +19,26 @@ const SecondRoute = () => (
  
 const initialLayout = { width: Dimensions.get('window').width };
 
+const renderTabBar = (props:any) => (
+  <TabBar
+    {...props}
+    indicatorStyle={{ backgroundColor: "#2D9CDB" }}
+    style={{ backgroundColor: Colors.currentTheme.bgMain, }}
+    renderLabel={({ route, focused, color }) => (
+      <Text style={{ color, fontSize:16,fontWeight:'600', }}>
+        {route.title}
+      </Text>
+    )}
+  />
+);
+
 
 export default function ProfileScreen() {
   const [globalState,setGlobalState] = React.useContext(GlobalState);
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: 'first', title: 'First' },
-    { key: 'second', title: 'Second' },
+    { key: 'first', title: 'Info' },
+    { key: 'second', title: 'Setting' },
   ]);
  
   const renderScene = SceneMap({
@@ -63,6 +76,7 @@ export default function ProfileScreen() {
           renderScene={renderScene}
           onIndexChange={setIndex}
           initialLayout={initialLayout}
+          renderTabBar={renderTabBar}
         />
       </View>
     </SafeAreaView>
