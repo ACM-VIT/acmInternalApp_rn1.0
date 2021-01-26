@@ -1,21 +1,69 @@
 import * as React from 'react';
-import { StyleSheet,View,Text,Dimensions} from 'react-native';
+import { StyleSheet,View,Text,Dimensions,TouchableHighlight,Modal,Alert,Image} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import GlobalState, { IGlobalState } from '../contexts/GlobalState';
 import { TabBar,TabView, SceneMap } from 'react-native-tab-view';
-
+import {GenericFunc} from '../global'
 
 import Colors from '../constants/Colors';
 import ProfilePicture from '../components/ProfileComponent';
+import { TextInput } from 'react-native-gesture-handler';
+import CoderSvg  from '../assets/images/coder.svg';
 
 
 const FirstRoute = () => (
   <View style={[styles.tab_screen, { backgroundColor: '#ff4081' }]} />
 );
+
+interface SecondRouteProps {
+  modalVisible:boolean;
+  setModalVisible:GenericFunc;
+}
  
-const SecondRoute = () => (
-  <View style={[styles.tab_screen, { backgroundColor: Colors.currentTheme.bgMain}]} />
-);
+const SecondRoute = ({modalVisible,setModalVisible}:SecondRouteProps) => {
+  const [pwd, setPwd] = React.useState(" ")
+  return <View style={[styles.tab_screen, { backgroundColor: Colors.currentTheme.bgMain}]} >
+     <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+        }}
+      >
+        <View style={styles.centeredModalView}>
+          <View style={styles.modalView}>
+            <CoderSvg />
+            <Text style={styles.modalText}>Acm-cli Setup</Text>
+            <Text style={styles.modalText}>Cli-password</Text>
+            <TextInput
+            style={{height: 40}}
+            placeholder="Enter Password"
+            onChangeText={input=> setPwd(input)}
+            defaultValue={pwd}
+          />
+            <TouchableHighlight
+              style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+              }}
+            >
+              <Text style={styles.textStyle}>Hide Modal</Text>
+            </TouchableHighlight>
+          </View>
+        </View>
+      </Modal>
+
+      <TouchableHighlight
+        style={styles.openButton}
+        onPress={() => {
+          setModalVisible(true);
+        }}
+      >
+        <Text style={styles.textStyle}>Show Modal</Text>
+      </TouchableHighlight>
+  </View>
+};
  
 const initialLayout = { width: Dimensions.get('window').width };
 
@@ -34,6 +82,7 @@ const renderTabBar = (props:any) => (
 );
 
 
+
 export default function ProfileScreen() {
   const [globalState,setGlobalState] = React.useContext(GlobalState);
   const [index, setIndex] = React.useState(0);
@@ -41,15 +90,27 @@ export default function ProfileScreen() {
     { key: 'first', title: 'Info' },
     { key: 'second', title: 'Setting' },
   ]);
+  const [modalVisible, setModalVisible] = React.useState(false);
  
-  const renderScene = SceneMap({
-    first: FirstRoute,
-    second: SecondRoute,
-  });
+  // const renderScene = SceneMap({
+  //   first: FirstRoute,
+  //   second: SecondRoute,
+  // });
 
   React.useEffect(()=>{
     console.log(globalState)
   });
+
+  const renderScene = ({ route }:any) => {
+    switch (route.key) {
+      case 'first':
+        return <FirstRoute  />;
+      case 'second':
+        return <SecondRoute modalVisible={modalVisible} setModalVisible={setModalVisible}/>;
+      default:
+        return null;
+    }
+  };
 
 
   return (
@@ -206,4 +267,47 @@ const styles = StyleSheet.create({
   tab_screen:{
     flex:1,
   },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  centeredModalView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)'
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "#3D4A53",
+   // borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  },
+  openButton: {
+    backgroundColor: "#F194FF",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
+  }
 });
