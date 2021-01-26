@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet,View,Text,Dimensions,TouchableHighlight,Modal,Alert,Image} from 'react-native';
+import { StyleSheet,View,Text,Dimensions,TouchableWithoutFeedback,Modal,Alert,Image} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import GlobalState, { IGlobalState } from '../contexts/GlobalState';
 import { TabBar,TabView, SceneMap } from 'react-native-tab-view';
@@ -8,7 +8,8 @@ import {GenericFunc} from '../global'
 import Colors from '../constants/Colors';
 import ProfilePicture from '../components/ProfileComponent';
 import { TextInput } from 'react-native-gesture-handler';
-import CoderSvg  from '../assets/images/coder.svg';
+import Dev  from '../components/geek_dev';
+
 
 
 const FirstRoute = () => (
@@ -33,35 +34,43 @@ const SecondRoute = ({modalVisible,setModalVisible}:SecondRouteProps) => {
       >
         <View style={styles.centeredModalView}>
           <View style={styles.modalView}>
-            <CoderSvg />
-            <Text style={styles.modalText}>Acm-cli Setup</Text>
-            <Text style={styles.modalText}>Cli-password</Text>
+            <Dev/>
+            <Text style={styles.modalTitleText}>CLI for GEEKS</Text>
+            <Text style={styles.modalSubtitleText}>Set the password for use with the CLI</Text>
             <TextInput
-            style={{height: 40}}
+            style={{height: 50,width:'100%',color:'#fff',marginVertical:0}}
             placeholder="Enter Password"
+            placeholderTextColor="#fff"
             onChangeText={input=> setPwd(input)}
             defaultValue={pwd}
           />
-            <TouchableHighlight
+           <TextInput
+            style={{height: 50,width:'100%',color:'#fff',marginBottom:30}}
+            placeholder="Confirm Password"
+            placeholderTextColor="#fff"
+            onChangeText={input=> setPwd(input)}
+            defaultValue={pwd}
+          />
+            <TouchableWithoutFeedback
               style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
               onPress={() => {
                 setModalVisible(!modalVisible);
               }}
             >
               <Text style={styles.textStyle}>Hide Modal</Text>
-            </TouchableHighlight>
+            </TouchableWithoutFeedback>
           </View>
         </View>
       </Modal>
 
-      <TouchableHighlight
+      <TouchableWithoutFeedback
         style={styles.openButton}
         onPress={() => {
           setModalVisible(true);
         }}
       >
         <Text style={styles.textStyle}>Show Modal</Text>
-      </TouchableHighlight>
+      </TouchableWithoutFeedback>
   </View>
 };
  
@@ -306,8 +315,16 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center"
   },
-  modalText: {
+  modalTitleText:{
     marginBottom: 15,
-    textAlign: "center"
+    textAlign: "center",
+    color:"#fff",
+    fontSize:24,
+    fontWeight:"bold",
+  },
+  modalSubtitleText: {
+    marginBottom: 15,
+    textAlign: "center",
+    color:"#868D94",
   }
 });
