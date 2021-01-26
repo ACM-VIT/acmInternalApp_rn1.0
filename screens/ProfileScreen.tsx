@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet,View,Text,Dimensions,TouchableWithoutFeedback,Modal,Alert,Image} from 'react-native';
+import { StyleSheet,View,Text,Dimensions,TouchableWithoutFeedback,Modal,Alert,Image,Button} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import GlobalState, { IGlobalState } from '../contexts/GlobalState';
 import { TabBar,TabView, SceneMap } from 'react-native-tab-view';
@@ -9,6 +9,7 @@ import Colors from '../constants/Colors';
 import ProfilePicture from '../components/ProfileComponent';
 import { TextInput } from 'react-native-gesture-handler';
 import Dev  from '../components/geek_dev';
+
 
 
 
@@ -22,9 +23,10 @@ interface SecondRouteProps {
 }
  
 const SecondRoute = ({modalVisible,setModalVisible}:SecondRouteProps) => {
-  const [pwd, setPwd] = React.useState(" ");
-  const [confirmpwd,setConfirmPwd] = React.useState(" ");
-  const [errmsg, seterrmsg] = React.useState("")
+  const [pwd, setPwd] = React.useState('');
+  const [confirmpwd,setConfirmPwd] = React.useState('');
+  const [errmsg, seterrmsg] = React.useState("");
+ 
   return <View style={[styles.tab_screen, { backgroundColor: Colors.currentTheme.bgMain}]} >
      <Modal
         animationType="fade"
@@ -39,21 +41,7 @@ const SecondRoute = ({modalVisible,setModalVisible}:SecondRouteProps) => {
             <Dev/>
             <Text style={styles.modalTitleText}>CLI for GEEKS</Text>
             <Text style={styles.modalSubtitleText}>Set the password for use with the CLI</Text>
-            <TextInput
-            style={{height: 50,width:'100%',color:'#fff',marginVertical:10}}
-            placeholder="Enter Password"
-            placeholderTextColor="#fff"
-            onChangeText={input=> setPwd(input)}
-            value={pwd}
-          />
-           <TextInput
-            style={{height: 50,width:'100%',color:'#fff',marginBottom:30}}
-            placeholder="Confirm Password"
-            placeholderTextColor="#fff"
-            onChangeText={input=> setConfirmPwd(input)}
-            value={confirmpwd}
-          //  defaultValue={confirmpwd}
-          />
+           
           <Text>{errmsg}</Text>
             <TouchableWithoutFeedback
               style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
@@ -61,7 +49,7 @@ const SecondRoute = ({modalVisible,setModalVisible}:SecondRouteProps) => {
                 setModalVisible(!modalVisible);
               }}
             >
-              <Text style={styles.textStyle}>Hide Modal</Text>
+              <Text style={styles.textStyle}>Cancel</Text>
             </TouchableWithoutFeedback>
           </View>
         </View>
@@ -318,9 +306,10 @@ const styles = StyleSheet.create({
     elevation: 2
   },
   textStyle: {
-    color: "white",
+    color: Colors.currentTheme.activeTab,
     fontWeight: "bold",
-    textAlign: "center"
+    textAlign: "center",
+    fontSize:18,
   },
   modalTitleText:{
     marginBottom: 15,
