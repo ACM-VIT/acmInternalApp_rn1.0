@@ -46,7 +46,7 @@ export default function App() {
   const [fontLoaded,setFontLoaded] = useState(false);
 
   useEffect(() => {
-   // AsyncStorage.clear();
+   //AsyncStorage.clear();
     AsyncStorage.getItem('onboarding').then((val) => {
         if(val) {
           console.log(val);

@@ -18,7 +18,8 @@ export const defaultTheme =  {
   tagsColor:'#1C2D3E',
   tagsTextColor:"#fff",
   searchBackground:'#1C2D3E',
-  searchTextColor:"grey"
+  searchTextColor:"grey",
+  activeTab:"#2D9CDB" ,
 };
 
 export default {

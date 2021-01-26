@@ -14,7 +14,7 @@ const FirstRoute = () => (
 );
  
 const SecondRoute = () => (
-  <View style={[styles.tab_screen, { backgroundColor: '#673ab7' }]} />
+  <View style={[styles.tab_screen, { backgroundColor: Colors.currentTheme.bgMain}]} />
 );
  
 const initialLayout = { width: Dimensions.get('window').width };
@@ -22,13 +22,14 @@ const initialLayout = { width: Dimensions.get('window').width };
 const renderTabBar = (props:any) => (
   <TabBar
     {...props}
-    indicatorStyle={{ backgroundColor: "#2D9CDB" }}
+    indicatorStyle={{ backgroundColor: Colors.currentTheme.activeTab,}}
     style={{ backgroundColor: Colors.currentTheme.bgMain, }}
     renderLabel={({ route, focused, color }) => (
       <Text style={{ color, fontSize:16,fontWeight:'600', }}>
         {route.title}
       </Text>
     )}
+    activeColor={Colors.currentTheme.activeTab}
   />
 );
 
