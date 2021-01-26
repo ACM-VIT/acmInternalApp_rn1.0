@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet,View,Text,Dimensions,TouchableWithoutFeedback,Modal,Alert,Image,Button} from 'react-native';
+import { StyleSheet,View,Text,Dimensions,TouchableWithoutFeedback,TouchableHighlight,Modal,Alert,Image,Button} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import GlobalState, { IGlobalState } from '../contexts/GlobalState';
 import { TabBar,TabView, SceneMap } from 'react-native-tab-view';
@@ -7,11 +7,34 @@ import {GenericFunc} from '../global'
 
 import Colors from '../constants/Colors';
 import ProfilePicture from '../components/ProfileComponent';
-import { TextInput } from 'react-native-gesture-handler';
+import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import Dev  from '../components/geek_dev';
+import { baseUrl } from '../constants/Config';
 
+interface updatePasswordProps {
+  access_token:string | undefined;
+  pwd:string;
+  setModalVisible:GenericFunc;
+  seterrmsg:GenericFunc;
+}
 
-
+const updatePassword = async ({access_token,pwd,setModalVisible,seterrmsg}:updatePasswordProps) => {
+  console.log(access_token,pwd,setModalVisible,seterrmsg);
+  const updatereq = await fetch(`${baseUrl}/v1/user/update`,{
+    method:"PUT",
+    headers:{
+      "Content-Type":"application/json",
+      "authorization":`Bearer ${access_token}`,
+    },
+    body:JSON.stringify({pwd})
+  })
+  if(updatereq.status != 200) {
+      seterrmsg("Unable to update pwd. Hit cancel")
+  }else {
+     seterrmsg("Successfully Updated the pwd!");
+  }
+  return;
+}
 
 const FirstRoute = () => (
   <View style={[styles.tab_screen, { backgroundColor: '#ff4081' }]} />
@@ -20,9 +43,10 @@ const FirstRoute = () => (
 interface SecondRouteProps {
   modalVisible:boolean;
   setModalVisible:GenericFunc;
+  globalState:IGlobalState |undefined;
 }
  
-const SecondRoute = ({modalVisible,setModalVisible}:SecondRouteProps) => {
+const SecondRoute = ({modalVisible,setModalVisible,globalState}:SecondRouteProps) => {
   const [pwd, setPwd] = React.useState('');
   const [confirmpwd,setConfirmPwd] = React.useState('');
   const [errmsg, seterrmsg] = React.useState("");
@@ -66,8 +90,9 @@ const SecondRoute = ({modalVisible,setModalVisible}:SecondRouteProps) => {
           onChangeText={(input:any)=>setConfirmPwd(input)}
         />
 
-          <Text>{errmsg}</Text>
-            <TouchableWithoutFeedback
+          <Text style={{color:'#fff'}}>{errmsg}</Text>
+          <View style={{alignSelf:'flex-end',flexDirection:'row',/*borderWidth:1,borderColor:"red",*/justifyContent:'space-between',alignItems:'center',position:'relative',top:15,right:25}}>
+          <TouchableWithoutFeedback
               style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
               onPress={() => {
                 setModalVisible(!modalVisible);
@@ -75,6 +100,24 @@ const SecondRoute = ({modalVisible,setModalVisible}:SecondRouteProps) => {
             >
               <Text style={styles.textStyle}>Cancel</Text>
             </TouchableWithoutFeedback>
+            <TouchableHighlight
+              style={{ ...styles.openButton, marginLeft:10 }}
+              onPress={async () => {
+                 console.log("pressed");
+                 if(pwd != confirmpwd) {
+                   seterrmsg("passwords don't match !");
+                   return;
+                 }
+                 await updatePassword({access_token:globalState?.tokens?.accessToken,pwd,setModalVisible,seterrmsg})
+                }}
+            >
+              <View style={styles.mainBtn}>
+                <Text style={styles.mainBtnStyle}>Set</Text>
+              </View>
+            
+            </TouchableHighlight>
+          </View>
+         
           </View>
         </View>
       </Modal>
@@ -88,7 +131,7 @@ const SecondRoute = ({modalVisible,setModalVisible}:SecondRouteProps) => {
           setModalVisible(true);
         }}
       >
-        <Text style={styles.textStyle}>Show Modal</Text>
+        <Text style={styles.textStyle}>Set Cli Password</Text>
       </TouchableWithoutFeedback>
   </View>
 };
@@ -134,7 +177,7 @@ export default function ProfileScreen() {
       case 'first':
         return <FirstRoute  />;
       case 'second':
-        return <SecondRoute modalVisible={modalVisible} setModalVisible={setModalVisible}/>;
+        return <SecondRoute modalVisible={modalVisible} setModalVisible={setModalVisible} globalState={globalState}/>;
       default:
         return null;
     }
@@ -324,16 +367,29 @@ const styles = StyleSheet.create({
     elevation: 5
   },
   openButton: {
-    backgroundColor: "#F194FF",
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2
+    //backgroundColor: "#F194FF",
+    borderRadius: 8,
+    paddingHorizontal: 30,
+    paddingVertical:10,
+    //elevation: 2
   },
   textStyle: {
     color: Colors.currentTheme.activeTab,
     fontWeight: "bold",
     textAlign: "center",
     fontSize:18,
+  },
+  mainBtnStyle: {
+    color: "#6c767f",
+    fontWeight: "bold",
+    textAlign: "center",
+    fontSize:18,
+  },
+  mainBtn: {
+    backgroundColor:"#566069",
+    paddingHorizontal:30,
+    paddingVertical:10,
+    borderRadius:8,
   },
   modalTitleText:{
     marginBottom: 15,
