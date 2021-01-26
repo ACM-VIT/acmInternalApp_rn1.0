@@ -2,52 +2,41 @@ import * as React from 'react';
 import { StyleSheet,View,Text,Dimensions} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import GlobalState, { IGlobalState } from '../contexts/GlobalState';
+import { TabView, SceneMap } from 'react-native-tab-view';
 
 
 import Colors from '../constants/Colors';
 import ProfilePicture from '../components/ProfileComponent';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import {GenericFunc} from '../global'
-import ViewPager from '@react-native-community/viewpager';
 
-const InfoScreen = () => (
-  <View key="1" style={[styles.tabView, { backgroundColor: '#ff4081' }]} />
+
+const FirstRoute = () => (
+  <View style={[styles.tab_screen, { backgroundColor: '#ff4081' }]} />
 );
  
-const SettingScreen = () => (
-  <View key="2" style={[styles.tabView, { backgroundColor: '#673ab7' }]} />
+const SecondRoute = () => (
+  <View style={[styles.tab_screen, { backgroundColor: '#673ab7' }]} />
 );
-
-
-interface ITabProps {
-  name:string;
-  tab_num:number;
-  setTab:GenericFunc;
-  curr_tab:number;
-}
-
-const Tab = ({curr_tab,setTab,name,tab_num}:ITabProps) => (
-  <TouchableOpacity onPress={setTab(curr_tab)}>
-      <View style={curr_tab===tab_num?styles.activeTab:styles.inactiveTab}>
-    <Text style={curr_tab===tab_num?styles.activeTab_Text:styles.inactiveTab_Text}>{name}</Text>
-    </View >
- </TouchableOpacity>
-)
  
+const initialLayout = { width: Dimensions.get('window').width };
 
 
 export default function ProfileScreen() {
   const [globalState,setGlobalState] = React.useContext(GlobalState);
-  const [tab, setTab] = React.useState(1);
-  const pagerRef = React.useRef<ViewPager>(null);
+  const [index, setIndex] = React.useState(0);
+  const [routes] = React.useState([
+    { key: 'first', title: 'First' },
+    { key: 'second', title: 'Second' },
+  ]);
+ 
+  const renderScene = SceneMap({
+    first: FirstRoute,
+    second: SecondRoute,
+  });
+
   React.useEffect(()=>{
     console.log(globalState)
   });
 
-  const handlePageChange = (pageNumber:number) => {
-    if(pagerRef.current)
-      pagerRef.current.setPage(pageNumber);
-  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -69,16 +58,12 @@ export default function ProfileScreen() {
           </View>
       </View>
       <View style={styles.tabView}>
-        <View style={styles.tabs}>
-          <Text>Info</Text>
-          <Text>Settings</Text>
-        </View>
-        <View style={styles.tab_screen}>
-          <ViewPager style={{ flex: 1 }} ref={pagerRef}>
-              <InfoScreen />
-              <SettingScreen />
-          </ViewPager>
-        </View>
+          <TabView
+          navigationState={{ index, routes }}
+          renderScene={renderScene}
+          onIndexChange={setIndex}
+          initialLayout={initialLayout}
+        />
       </View>
     </SafeAreaView>
   );
@@ -205,5 +190,5 @@ const styles = StyleSheet.create({
   },
   tab_screen:{
     flex:1,
-  }
+  },
 });
